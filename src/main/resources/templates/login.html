@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.login})">
+  </head>
+  <body>
+    <div class="container">
+      <form class="form-login" th:action="@{/login}" method="post">
+        <h3 class="sub-header" th:text="#{label.title}"></h3>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-danger" th:if="${pair == 'message=login_failure'}" th:text="#{message.login.loginFailure}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <!-- username -->
+        <div class="form-group">
+          <label class="control-label" th:text="#{label.login.username}"></label>
+          <input type="text" class="form-control" name="username" th:placeholder="#{label.login.username}" required="required" autofocus="autofocus"/>
+        </div>
+
+        <!-- password -->
+        <div class="form-group">
+          <label class="control-label" th:text="#{label.login.password}"></label>
+          <input type="password" class="form-control" name="password" th:placeholder="#{label.login.password}" required="required"/>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary btn-block" th:text="#{label.login}"></button>
+      </form>
+    </div><!-- /container -->
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

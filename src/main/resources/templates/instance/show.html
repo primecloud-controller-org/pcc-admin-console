@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.instance})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.instance}"></h3>
+        </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.instance.no}"></th>
+                  <td th:text="${instance.instanceNo}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.name}"></th>
+                  <td th:text="${instance.instanceName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.userName}"></th>
+                  <td><a th:href="@{/user/show(userNo=${instance.farm.user.userNo})}" th:text="${instance.farm.user.username}"></a></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.farmName}"></th>
+                  <td><a th:href="@{/farm/show(farmNo=${instance.farm.farmNo})}" th:text="${instance.farm.farmName}"></a></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.platformName}"></th>
+                  <td>
+                    <a th:href="@{/platform/show(platformNo=${instance.platform.platformNo})}" th:text="${instance.platform.platformName} + ' - ' + ${instance.platform.platformNameDisp}"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.imageName}"></th>
+                  <td>
+                    <a th:href="@{/image/show(imageNo=${instance.image.imageNo})}" th:text="${instance.image.imageName} + ' - ' + ${instance.image.imageNameDisp}"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.enabled}"></th>
+                  <td th:text="#{${#bools.isTrue(instance.enabled) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.comment}"></th>
+                  <td th:text="${instance.comment}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.fqdn}"></th>
+                  <td th:text="${instance.fqdn}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.instanceCode}"></th>
+                  <td th:text="${instance.instanceCode}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.publicIp}"></th>
+                  <td th:text="${instance.publicIp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.privateIp}"></th>
+                  <td th:text="${instance.privateIp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.status}"></th>
+                  <td th:text="${instance.status}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.progress}"></th>
+                  <td th:text="${instance.progress}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.coodinateStatus}"></th>
+                  <td th:text="${instance.coodinateStatus}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.loadBalancer}"></th>
+                  <td th:text="#{${#bools.isTrue(instance.loadBalancer) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${instance.aws != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoAws}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.instance.aws.keyName}"></th>
+                  <td th:text="${instance.aws.keyName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.instanceType}"></th>
+                  <td th:text="${instance.aws.instanceType}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.securityGroup}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(instance.aws.securityGroups, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.availabilityZone}"></th>
+                  <td th:text="${instance.aws.availabilityZone}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.subnetId}"></th>
+                  <td th:text="${instance.aws.subnetId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.rootSize}"></th>
+                  <td th:text="${instance.aws.rootSize}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.instanceId}"></th>
+                  <td th:text="${instance.aws.instanceId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.status}"></th>
+                  <td th:text="${instance.aws.status}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.dnsName}"></th>
+                  <td th:text="${instance.aws.dnsName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.privateDnsName}"></th>
+                  <td th:text="${instance.aws.privateDnsName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.ipAddress}"></th>
+                  <td th:text="${instance.aws.ipAddress}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.aws.privateIpAddress}"></th>
+                  <td th:text="${instance.aws.privateIpAddress}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${instance.vmware != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoVmware}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.instance.vmware.machineName}"></th>
+                  <td th:text="${instance.vmware.machineName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.instanceType}"></th>
+                  <td th:text="${instance.vmware.instanceType}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.computeResource}"></th>
+                  <td th:text="${instance.vmware.computeResource}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.resourcePool}"></th>
+                  <td th:text="${instance.vmware.resourcePool}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.datastore}"></th>
+                  <td th:text="${instance.vmware.datastore}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.keyPairName}"></th>
+                  <td th:text="${instance.vmware.keyPair.keyName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.rootSize}"></th>
+                  <td th:text="${instance.vmware.rootSize}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.ipAddress}"></th>
+                  <td th:text="${instance.vmware.ipAddress}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.instance.vmware.privateIpAddress}"></th>
+                  <td th:text="${instance.vmware.privateIpAddress}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

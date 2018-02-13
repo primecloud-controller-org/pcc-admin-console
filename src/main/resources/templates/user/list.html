@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.user})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.user}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-danger" th:if="${pair == 'message=not_selected'}" th:text="#{message.user.notSelected}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_exist'}" th:text="#{message.user.notExist}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="table">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.user.no}"></th>
+                  <th th:text="#{label.user.name}"></th>
+                  <th th:text="#{label.user.enabled}"></th>
+                  <th th:text="#{label.user.lastLoginDate}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="user : ${users}">
+                  <td><a th:href="@{/user/show(userNo=${user.userNo})}" th:text="${user.userNo}"></a></td>
+                  <td><a th:href="@{/user/show(userNo=${user.userNo})}" th:text="${user.username}"></a></td>
+                  <td th:text="#{${#bools.isTrue(user.enabled) ? 'label.user.enabled.true' : 'label.user.enabled.false'}}"></td>
+                  <td th:text="${user.lastLoginDate == null ? '' : #dates.format(user.lastLoginDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

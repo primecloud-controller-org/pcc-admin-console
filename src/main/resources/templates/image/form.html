@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.image})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.image}"></h3>
+        </div>
+
+        <div class="row">
+          <div class="alert alert-danger hidden" id="message"></div>
+        </div>
+
+        <div class="form-horizontal">
+          <div id="imageBasic" class="row">
+            <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+            <!-- ImageNo -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.no}"></label>
+              <div class="col-md-1">
+                <input type="text" class="form-control" name="imageNo" th:value="${image?.imageNo}" th:readonly="${image == null ? false : true}"/>
+              </div>
+            </div>
+
+            <!-- ImageName -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.name}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="imageName" th:value="${image?.imageName}"/>
+              </div>
+            </div>
+
+            <!-- ImageNameDisp -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.nameDisp}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="imageNameDisp" th:value="${image?.imageNameDisp}"/>
+              </div>
+            </div>
+
+            <!-- Platform -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.platformName}"></label>
+              <div class="col-md-4">
+                <select class="form-control" name="platformNo">
+                  <th:block th:each="platform : ${platforms}" th:if="${image == null || image?.platform.platformType == platform.platformType}">
+                    <option  th:value="${platform.platformNo}" th:text="${platform.platformName} + ' - ' + ${platform.platformNameDisp}" th:data-platform_type="${platform.platformType}"></option>
+                  </th:block>
+                </select>
+              </div>
+            </div>
+
+            <!-- Os -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.os}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="os" th:value="${image?.os}"/>
+              </div>
+            </div>
+
+            <!-- OsDisp -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.osDisp}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="osDisp" th:value="${image?.osDisp}"/>
+              </div>
+            </div>
+
+            <!-- Selectable -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.selectable}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="selectable" th:checked="${image == null ? true : image.selectable}"/>
+              </div>
+            </div>
+
+            <!-- ComponentTypeNos -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.componentTypeNos}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="componentTypeNos" th:value="${image?.componentTypeNos}"/>
+              </div>
+            </div>
+
+            <!-- ZabbixTemplate -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.zabbixTemplate}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="zabbixTemplate" th:value="${image?.zabbixTemplate}"/>
+              </div>
+            </div>
+
+            <!-- ZabbixDisabled -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.zabbixDisabled}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="zabbixDisabled" th:checked="${image == null ? true : image.zabbixDisabled}"/>
+              </div>
+            </div>
+
+            <!-- PuppetDisabled -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.puppetDisabled}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="puppetDisabled" th:checked="${image == null ? true : image.puppetDisabled}"/>
+              </div>
+            </div>
+
+            <!-- ViewOrder -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.viewOrder}"></label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="viewOrder" th:value="${image?.viewOrder}"/>
+              </div>
+            </div>
+          </div><!-- /#imageBasic -->
+
+          <div id="imageAws" th:class="row + ${image == null || image.aws != null ? '' : ' hidden'}" th:if="${image == null || image.aws != null}">
+            <h4 class="sub-header" th:text="#{label.detailInfoAws}"></h4>
+
+            <!-- ImageId -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.imageId}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="imageId" th:value="${image?.aws?.imageId}"/>
+              </div>
+            </div>
+
+            <!-- KernelId -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.kernelId}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="kernelId" th:value="${image?.aws?.kernelId}"/>
+              </div>
+            </div>
+
+            <!-- RamdiskId -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.ramdiskId}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="ramdiskId" th:value="${image?.aws?.ramdiskId}"/>
+              </div>
+            </div>
+
+            <!-- InstanceTypes -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.instanceTypes}"></label>
+              <div class="col-md-8">
+                <input type="text" class="form-control" name="instanceTypes" th:value="${image?.aws?.instanceTypes}"/>
+              </div>
+            </div>
+
+            <!-- EbsImage -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.ebsImage}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="ebsImage" th:checked="${image?.aws == null ? true : image?.aws.ebsImage}"/>
+              </div>
+            </div>
+
+            <!-- RootSize -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.rootSize}"></label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="rootSize" th:value="${image?.aws?.rootSize}"/>
+              </div>
+            </div>
+          </div><!-- /#imageAws -->
+
+          <div id="imageVmware" th:class="row + ${image?.vmware != null ? '' : ' hidden'}" th:if="${image == null || image.vmware != null}">
+            <h4 class="sub-header" th:text="#{label.detailInfoVmware}"></h4>
+
+            <!-- TemplateName -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.vmware.templateName}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="templateName" th:value="${image?.vmware?.templateName}"/>
+              </div>
+            </div>
+
+            <!-- InstanceTypes -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.image.vmware.instanceTypes}"></label>
+              <div class="col-md-8">
+                <input type="text" class="form-control" name="instanceTypes" th:value="${image?.vmware?.instanceTypes}"/>
+              </div>
+            </div>
+
+            <!-- RootSize -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.vmware.rootSize}"></label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="rootSize" th:value="${image?.vmware?.rootSize}"/>
+              </div>
+            </div>
+          </div><!-- /#imageVmware -->
+
+          <div class="row">
+            <div class="form-group" th:if="${image == null}">
+              <button type="button" class="btn btn-primary" id="addButton">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </div>
+            <div class="form-group" th:if="${image != null}">
+              <button type="submit" class="btn btn-primary" id="editButton">
+                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
+              </button>
+            </div>
+          </div>
+        </div><!-- /.form-horizontal -->
+      </div><!-- /.container-fluid -->
+    </div><!-- /.main -->
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+    <script src="/js/image/form.js"></script>
+  </body>
+</html>

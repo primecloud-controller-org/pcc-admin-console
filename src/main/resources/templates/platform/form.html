@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.platform})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.platform}"></h3>
+        </div>
+
+        <div class="row">
+          <div class="alert alert-danger hidden" id="message"></div>
+        </div>
+
+        <div class="form-horizontal">
+          <div id="platformBasic" class="row">
+            <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+            <!-- PlatformNo -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.no}"></label>
+              <div class="col-md-1">
+                <input type="text" class="form-control" name="platformNo" th:value="${platform?.platformNo}" th:readonly="${platform == null ? false : true}"/>
+              </div>
+            </div>
+
+            <!-- PlatformName -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.name}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="platformName" th:value="${platform?.platformName}"/>
+              </div>
+            </div>
+
+            <!-- PlatformNameDisp -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.nameDisp}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="platformNameDisp" th:value="${platform?.platformNameDisp}"/>
+              </div>
+            </div>
+
+            <!-- PlatformSimplenameDisp -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.simplenameDisp}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="platformSimplenameDisp" th:value="${platform?.platformSimplenameDisp}"/>
+              </div>
+            </div>
+
+            <!-- Internal -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.internal}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="internal" th:checked="${platform == null ? true : platform.internal}"/>
+              </div>
+            </div>
+
+            <!-- Proxy -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.proxy}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="proxy" th:checked="${platform == null ? false : platform.proxy}"/>
+              </div>
+            </div>
+
+            <!-- PlatformType -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.type}"></label>
+              <div class="col-md-2">
+                <select class="form-control" name="platformType">
+                  <option value="aws" th:if="${platform == null || platform?.aws != null}" th:text="#{label.aws}"></option>
+                  <option value="vmware" th:if="${platform == null || platform?.vmware != null}" th:text="#{label.vmware}"></option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Selectable -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.selectable}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="selectable" th:checked="${platform == null ? true : platform.selectable}"/>
+              </div>
+            </div>
+
+            <!-- ViewOrder -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.viewOrder}"></label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="viewOrder" th:value="${platform?.viewOrder}"/>
+              </div>
+            </div>
+          </div><!-- /#platformBasic -->
+
+          <div id="platformAws" th:class="row + ${platform == null || platform.aws != null ? '' : ' hidden'}" th:if="${platform == null || platform.aws != null}">
+            <h4 class="sub-header" th:text="#{label.detailInfoAws}"></h4>
+
+            <!-- Host -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.host}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="host" th:value='${platform?.aws == null ? "ap-northeast-1.amazonaws.com" : platform?.aws.host}'/>
+              </div>
+            </div>
+
+            <!-- Port -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.port}"></label>
+              <div class="col-md-2">
+                <input type="text" class="form-control" name="port" th:value='${platform?.aws == null ? 443 : platform?.aws.port}'/>
+              </div>
+            </div>
+
+            <!-- Secure -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.secure}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="secure" th:checked="${platform?.aws == null ? true : platform?.aws.secure}"/>
+              </div>
+            </div>
+
+            <!-- Euca -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.euca}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="euca" th:checked="${platform?.aws == null ? false : platform?.aws.euca}"/>
+              </div>
+            </div>
+
+            <!-- Vpc -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.vpc}"></label>
+              <div class="col-md-1">
+                <input type="checkbox" class="form-control" name="vpc" th:checked="${platform?.aws == null ? true : platform?.aws.vpc}"/>
+              </div>
+            </div>
+
+            <!-- AvailabilityZone -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.availabilityZone}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="availabilityZone" th:value="${platform?.aws?.availabilityZone}"/>
+              </div>
+            </div>
+
+            <!-- VpcId -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.vpcId}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="vpcId" th:value="${platform?.aws?.vpcId}"/>
+              </div>
+            </div>
+
+            <!-- SubnetId -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.aws.subnetId}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="subnetId" th:value="${platform?.aws?.subnetId}"/>
+              </div>
+            </div>
+          </div><!-- /#platformAws -->
+
+          <div id="platformVmware" th:class="row + ${platform?.vmware != null ? '' : ' hidden'}" th:if="${platform == null || platform.vmware != null}">
+            <h4 class="sub-header" th:text="#{label.detailInfoVmware}"></h4>
+
+            <!-- Url -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.url}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="url" th:value="${platform?.vmware?.url}"/>
+              </div>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.username}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="username" th:value="${platform?.vmware?.username}"/>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.password}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="password" th:value="${platform?.vmware?.password}"/>
+              </div>
+            </div>
+
+            <!-- Datacenter -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.datacenter}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="datacenter" th:value="${platform?.vmware?.datacenter}"/>
+              </div>
+            </div>
+
+            <!-- PublicNetwork -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.publicNetwork}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="publicNetwork" th:value="${platform?.vmware?.publicNetwork}"/>
+              </div>
+            </div>
+
+            <!-- PrivateNetwork -->
+            <div class="form-group required">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.privateNetwork}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="privateNetwork" th:value="${platform?.vmware?.privateNetwork}"/>
+              </div>
+            </div>
+
+            <!-- ComputeResource -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.platform.vmware.computeResource}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="computeResource" th:value="${platform?.vmware?.computeResource}"/>
+              </div>
+            </div>
+          </div><!-- /#platformVmware -->
+
+          <div class="row">
+            <div class="form-group" th:if="${platform == null}">
+              <button type="button" class="btn btn-primary" id="addButton">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </div>
+            <div class="form-group" th:if="${platform != null}">
+              <button type="submit" class="btn btn-primary" id="editButton">
+                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
+              </button>
+            </div>
+          </div>
+        </div><!-- /.form-horizontal -->
+      </div><!-- /.container-fluid -->
+    </div><!-- /.main -->
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+    <script src="/js/platform/form.js"></script>
+  </body>
+</html>

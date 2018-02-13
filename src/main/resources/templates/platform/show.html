@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.platform})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.platform}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-success" th:if="${pair == 'message=success_add'}" th:text="#{message.platform.successAdd}"></div>
+              <div class="alert alert-success" th:if="${pair == 'message=success_edit'}" th:text="#{message.platform.successEdit}"></div>
+              <div class="alert alert-success" th:if="${pair == 'message=success_add_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successAdd}"></div>
+              <div class="alert alert-success" th:if="${pair == 'message=success_remove_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successRemove}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="text-right">
+            <a th:href="@{/platform/form(platformNo=${platform.platformNo})}">
+              <button type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
+              </button>
+            </a>
+            <button type="button" class="btn btn-danger" id="remove-modal-open">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.platform.no}"></th>
+                  <td th:text="${platform.platformNo}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.name}"></th>
+                  <td th:text="${platform.platformName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.nameDisp}"></th>
+                  <td th:text="${platform.platformNameDisp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.simplenameDisp}"></th>
+                  <td th:text="${platform.platformSimplenameDisp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.internal}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.internal) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.proxy}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.proxy) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.type}"></th>
+                  <td th:text="#{${'label.' + platform.platformType}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.selectable}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.selectable) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.viewOrder}"></th>
+                  <td th:text="${platform.viewOrder}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${platform.aws != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoAws}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.platform.aws.host}"></th>
+                  <td th:text="${platform.aws.host}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.port}"></th>
+                  <td th:text="${platform.aws.port}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.secure}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.aws.secure) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.euca}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.aws.euca) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.vpc}"></th>
+                  <td th:text="#{${#bools.isTrue(platform.aws.vpc) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.availabilityZone}"></th>
+                  <td th:text="${platform.aws.availabilityZone}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.vpcId}"></th>
+                  <td th:text="${platform.aws.vpcId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.aws.subnetId}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(platform.aws.subnetId, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${platform.vmware != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoVmware}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.platform.vmware.url}"></th>
+                  <td th:text="${platform.vmware.url}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.username}"></th>
+                  <td th:text="${platform.vmware.username}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.password}"></th>
+                  <td th:text="${platform.vmware.password}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.datacenter}"></th>
+                  <td th:text="${platform.vmware.datacenter}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.publicNetwork}"></th>
+                  <td th:text="${platform.vmware.publicNetwork}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.privateNetwork}"></th>
+                  <td th:text="${platform.vmware.privateNetwork}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.platform.vmware.computeResource}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(platform.vmware.computeResource, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${platform.vmware != null}">
+          <h4 class="sub-header" th:text="#{label.platform.vmware.instanceType}"></h4>
+
+          <div class="row">
+            <div class="text-right">
+              <button type="button" class="btn btn-default" id="add-vmware-instance-type-modal-open">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.platform.vmware.instanceType.no}"></th>
+                  <th th:text="#{label.platform.vmware.instanceType.name}"></th>
+                  <th th:text="#{label.platform.vmware.instanceType.cpu}"></th>
+                  <th th:text="#{label.platform.vmware.instanceType.memory}"></th>
+                  <th th:text="#{label.remove}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="instanceType : ${platform.vmware.instanceTypes}">
+                  <td th:text="${instanceType.instanceTypeNo}"></td>
+                  <td th:text="${instanceType.instanceTypeName}"></td>
+                  <td th:text="${instanceType.cpu}"></td>
+                  <td th:text="${instanceType.memory}"></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-danger remove-vmware-instance-type-modal-open" th:data-instance_type_no="${instanceType.instanceTypeNo}" th:data-instance_type_name="${instanceType.instanceTypeName}" th:data-cpu="${instanceType.cpu}" th:data-memory="${instanceType.memory}">
+                      <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="remove-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.removePlatform}"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger hidden" id="remove-modal-message"></div>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.no}"></label>
+              <input type="text" class="form-control" name="platformNo" th:value="${platform.platformNo}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.platform.name}"></label>
+              <input type="text" class="form-control" name="platformName" th:value="${platform.platformName}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.platform.nameDisp}"></label>
+              <input type="text" class="form-control" name="platformNameDisp" th:value="${platform.platformNameDisp}" disabled="disabled"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-danger" id="remove-button">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="add-vmware-instance-type-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.addPlatformVmwareInstanceType}"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger hidden" id="add-vmware-instance-type-modal-message"></div>
+            <input type="hidden" name="platformNo" th:value="${platform.platformNo}"/>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.no}"></label>
+              <input type="text" class="form-control" name="instanceTypeNo"/>
+            </div>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.name}"></label>
+              <input type="text" class="form-control" name="instanceTypeName"/>
+            </div>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.cpu}"></label>
+              <input type="text" class="form-control" name="cpu"/>
+            </div>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.memory}"></label>
+              <input type="text" class="form-control" name="memory"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-primary" id="add-vmware-instance-type-button">
+              <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="remove-vmware-instance-type-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.removePlatformVmwareInstanceType}"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger hidden" id="remove-vmware-instance-type-modal-message"></div>
+            <input type="hidden" name="platformNo" th:value="${platform.platformNo}"/>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.no}"></label>
+              <input type="text" class="form-control" name="instanceTypeNo" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.name}"></label>
+              <input type="text" class="form-control" name="instanceTypeName" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.cpu}"></label>
+              <input type="text" class="form-control" name="cpu" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.memory}"></label>
+              <input type="text" class="form-control" name="memory" disabled="disabled"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-danger" id="remove-vmware-instance-type-button">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+    <script src="/js/platform/show.js"></script>
+  </body>
+</html>

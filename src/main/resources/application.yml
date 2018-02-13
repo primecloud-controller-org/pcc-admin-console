@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/adc?useSSL=false
+    username: adc
+    password: password
+
+  jpa:
+    database: MYSQL
+    hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  thymeleaf:
+    cache: false
+    mode: HTML
+
+logging:
+  level:
+#    root: WARN
+#    org.springframework: DEBUG
+#    org.hibernate: TRACE
+
+app:
+#  users:
+#    admin: $2a$10$ad5AgeWc95z99iNhtciuFuY1reKPdhPzloqgpdjm5rm2wd/varCCW

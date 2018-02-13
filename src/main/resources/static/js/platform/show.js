@@ -1,0 +1,165 @@
+(function() {
+  $("#remove-modal-open").on("click", function() {
+    $("#remove-modal-message").text("");
+    $("#remove-modal-message").addClass("hidden");
+    $("#remove-button").prop("disabled", false);
+    $("#remove-modal").modal("show");
+
+    var platformNo = $("#remove-modal input[name=platformNo]").val();
+
+    // Check removable
+    $.ajax({
+      url : "/rest/platform/checkRemove",
+      type : "get",
+      data : {
+        platformNo : platformNo
+      },
+      dataType : "json",
+      cache : false
+    }).done(function(response) {
+      if (response.error) {
+        $("#remove-modal-message").text(response.error.message);
+        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-button").prop("disabled", true);
+        return;
+      }
+    });
+  });
+
+  $("#remove-button").on("click", function() {
+    var platformNo = $("#remove-modal input[name=platformNo]").val();
+
+    $.ajax({
+      url : "/rest/platform/remove",
+      type : "post",
+      data : {
+        platformNo : platformNo
+      },
+      dataType : "json",
+      cache : false
+    }).done(function(response) {
+      if (response.error) {
+        $("#remove-modal-message").text(response.error.message);
+        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-button").prop("disabled", true);
+        return;
+      }
+
+      $("#remove-modal").modal("hide");
+      location.replace("/platform?message=success_remove");
+    });
+  });
+
+  var selectors = {
+    PlatformNo : "#add-vmware-instance-type-modal input[name=platformNo]",
+    InstanceTypeNo : "#add-vmware-instance-type-modal input[name=instanceTypeNo]",
+    InstanceTypeName : "#add-vmware-instance-type-modal input[name=instanceTypeName]",
+    Cpu : "#add-vmware-instance-type-modal input[name=cpu]",
+    Memory : "#add-vmware-instance-type-modal input[name=memory]"
+  };
+
+  $("#add-vmware-instance-type-modal-open").on("click", function() {
+    $(selectors["InstanceTypeNo"]).val("");
+    $(selectors["InstanceTypeName"]).val("");
+    $(selectors["Cpu"]).val("");
+    $(selectors["Memory"]).val("");
+
+    $("#add-vmware-instance-type-modal-message").text("");
+    $("#add-vmware-instance-type-modal-message").addClass("hidden");
+    $("#add-vmware-instance-type-modal").modal("show");
+  });
+
+  $("#add-vmware-instance-type-button").on("click", function() {
+    var platformNo = $(selectors["PlatformNo"]).val();
+
+    $.ajax({
+      url : "/rest/platform/addVmwareInstanceType",
+      type : "post",
+      data : {
+        platformNo : platformNo,
+        instanceTypeNo : $(selectors["InstanceTypeNo"]).val(),
+        instanceTypeName : $(selectors["InstanceTypeName"]).val(),
+        cpu : $(selectors["Cpu"]).val(),
+        memory : $(selectors["Memory"]).val()
+      },
+      dataType : "json",
+      cache : false
+    }).done(function(response) {
+      if (response.error) {
+        $("#add-vmware-instance-type-modal-message").text(response.error.message);
+        $("#add-vmware-instance-type-modal-message").removeClass("hidden");
+
+        var code = response.error.code;
+        for (name in selectors) {
+          if (code.endsWith(name)) {
+            $(selectors[name]).focus();
+          }
+        }
+
+        return;
+      }
+
+      $("#add-vmware-instance-type-modal").modal("hide");
+      location.replace("/platform/show?platformNo=" + platformNo + "&message=success_add_vmware_instance_type");
+    });
+  });
+
+  $(".remove-vmware-instance-type-modal-open").on("click", function() {
+    var instanceTypeNo = $(this).data("instance_type_no");
+
+    $("#remove-vmware-instance-type-modal input[name=instanceTypeNo]").val(instanceTypeNo);
+    $("#remove-vmware-instance-type-modal input[name=instanceTypeName]").val($(this).data("instance_type_name"));
+    $("#remove-vmware-instance-type-modal input[name=cpu]").val($(this).data("cpu"));
+    $("#remove-vmware-instance-type-modal input[name=memory]").val($(this).data("memory"));
+
+    $("#remove-vmware-instance-type-modal-message").text("")
+    $("#remove-vmware-instance-type-modal-message").addClass("hidden");
+    $("#remove-vmware-instance-type-button").prop("disabled", false);
+    $("#remove-vmware-instance-type-modal").modal("show");
+
+    // Check removable
+    $.ajax({
+      url : "/rest/platform/checkRemoveVmareInstanceType",
+      type : "get",
+      data : {
+        instanceTypeNo : instanceTypeNo
+      },
+      dataType : "json",
+      cache : false
+    }).done(function(response) {
+      if (response.error) {
+        $("#remove-vmware-instance-type-modal-message").text(response.error.message);
+        $("#remove-vmware-instance-type-modal-message").removeClass("hidden");
+        $("#remove-vmware-instance-type-button").prop("disabled", true);
+        return;
+      }
+    });
+  });
+
+  $("#remove-vmware-instance-type-button").on("click", function() {
+    var instanceTypeNo = $("#remove-vmware-instance-type-modal input[name=instanceTypeNo]").val();
+
+    $.ajax({
+      url : "/rest/platform/removeVmareInstanceType",
+      type : "post",
+      data : {
+        instanceTypeNo : instanceTypeNo
+      },
+      dataType : "json",
+      cache : false
+    }).done(function(response) {
+      if (response.error) {
+        $("#remove-vmware-instance-type-modal-message").text(response.error.message);
+        $("#remove-vmware-instance-type-modal-message").removeClass("hidden");
+        $("#remove-vmware-instance-type-button").prop("disabled", true);
+        return;
+      }
+
+      var platformNo = $("#remove-vmware-instance-type-modal input[name=platformNo]").val();
+
+      $("#remove-vmware-instance-type-modal").modal("hide");
+      location.replace("/platform/show?platformNo=" + platformNo + "&message=success_remove_vmware_instance_type");
+    });
+  });
+
+}());

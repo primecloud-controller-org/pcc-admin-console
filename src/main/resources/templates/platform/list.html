@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.platform})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.platform}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-success" th:if="${pair == 'message=success_remove'}" th:text="#{message.platform.successRemove}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_selected'}" th:text="#{message.platform.notSelected}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_exist'}" th:text="#{message.platform.notExist}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="text-right">
+            <a href="/platform/form">
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="table">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.platform.no}"></th>
+                  <th th:text="#{label.platform.name}"></th>
+                  <th th:text="#{label.platform.nameDisp}"></th>
+                  <th th:text="#{label.platform.type}"></th>
+                  <th th:text="#{label.platform.selectable}"></th>
+                  <th th:text="#{label.platform.viewOrder}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="platform : ${platforms}">
+                  <td><a th:href="@{/platform/show(platformNo=${platform.platformNo})}" th:text="${platform.platformNo}"></a></td>
+                  <td><a th:href="@{/platform/show(platformNo=${platform.platformNo})}" th:text="${platform.platformName}"></a></td>
+                  <td th:text="${platform.platformNameDisp}"></td>
+                  <td th:text="#{${'label.' + platform.platformType}}"></td>
+                  <td th:text="#{${#bools.isTrue(platform.selectable) ? 'label.true' : 'label.false'}}"></td>
+                  <td th:text="${platform.viewOrder}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

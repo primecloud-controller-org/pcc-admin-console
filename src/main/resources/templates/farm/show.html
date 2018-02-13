@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.farm})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.farm}"></h3>
+        </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.farm.no}"></th>
+                  <td th:text="${farm.farmNo}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.name}"></th>
+                  <td th:text="${farm.farmName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.userName}"></th>
+                  <td><a th:href="@{/user/show(userNo=${farm.user.userNo})}" th:text="${farm.user.username}"></a></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.comment}"></th>
+                  <td th:text="${farm.comment}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.domainName}"></th>
+                  <td th:text="${farm.domainName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.scheduled}"></th>
+                  <td th:text="#{${#bools.isTrue(farm.scheduled) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.farm.componentProcessing}"></th>
+                  <td th:text="#{${#bools.isTrue(farm.componentProcessing) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

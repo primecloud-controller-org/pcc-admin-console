@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.image})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.image}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-success" th:if="${pair == 'message=success_remove'}" th:text="#{message.image.successRemove}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_selected'}" th:text="#{message.image.notSelected}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_exist'}" th:text="#{message.image.notExist}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="text-right">
+            <a href="/image/form">
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="table">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.image.no}"></th>
+                  <th th:text="#{label.image.name}"></th>
+                  <th th:text="#{label.image.nameDisp}"></th>
+                  <th th:text="#{label.image.platformName}"></th>
+                  <th th:text="#{label.image.selectable}"></th>
+                  <th th:text="#{label.image.viewOrder}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="image : ${images}">
+                  <td><a th:href="@{/image/show(imageNo=${image.imageNo})}" th:text="${image.imageNo}"></a></td>
+                  <td><a th:href="@{/image/show(imageNo=${image.imageNo})}" th:text="${image.imageName}"></a></td>
+                  <td th:text="${image.imageNameDisp}"></td>
+                  <td th:text="${image.platform.platformName}"></td>
+                  <td th:text="#{${#bools.isTrue(image.selectable) ? 'label.true' : 'label.false'}}"></td>
+                  <td th:text="${image.viewOrder}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

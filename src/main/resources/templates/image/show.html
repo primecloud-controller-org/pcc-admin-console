@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.image})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.image}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-success" th:if="${pair == 'message=success_add'}" th:text="#{message.image.successAdd}"></div>
+              <div class="alert alert-success" th:if="${pair == 'message=success_edit'}" th:text="#{message.image.successEdit}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="text-right">
+            <a th:href="@{/image/form(imageNo=${image.imageNo})}">
+              <button type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
+              </button>
+            </a>
+            <button type="button" class="btn btn-danger" id="remove-modal-open">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.image.no}"></th>
+                  <td th:text="${image.imageNo}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.name}"></th>
+                  <td th:text="${image.imageName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.nameDisp}"></th>
+                  <td th:text="${image.imageNameDisp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.platformName}"></th>
+                  <td>
+                    <a th:href="@{/platform/show(platformNo=${image.platform.platformNo})}" th:text="${image.platform.platformName} + ' - ' + ${image.platform.platformNameDisp}"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.os}"></th>
+                  <td th:text="${image.os}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.osDisp}"></th>
+                  <td th:text="${image.osDisp}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.selectable}"></th>
+                  <td th:text="#{${#bools.isTrue(image.selectable) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.componentTypeNos}"></th>
+                  <td th:text="${image.componentTypeNos}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.zabbixTemplate}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(image.zabbixTemplate, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.zabbixDisabled}"></th>
+                  <td th:text="#{${#bools.isTrue(image.zabbixDisabled) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.puppetDisabled}"></th>
+                  <td th:text="#{${#bools.isTrue(image.puppetDisabled) ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.viewOrder}"></th>
+                  <td th:text="${image.viewOrder}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${image.aws != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoAws}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.image.aws.imageId}"></th>
+                  <td th:text="${image.aws.imageId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.aws.kernelId}"></th>
+                  <td th:text="${image.aws.kernelId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.aws.ramdiskId}"></th>
+                  <td th:text="${image.aws.ramdiskId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.aws.instanceTypes}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(image.aws.instanceTypes, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.aws.ebsImage}"></th>
+                  <td th:text="#{${image.aws.ebsImage ? 'label.true' : 'label.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.aws.rootSize}"></th>
+                  <td th:text="${image.aws.rootSize}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" th:if="${image.vmware != null}">
+          <h4 class="sub-header" th:text="#{label.detailInfoVmware}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.image.vmware.templateName}"></th>
+                  <td th:text="${image.vmware.templateName}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.vmware.instanceTypes}"></th>
+                  <td>
+                    <div th:each="str : ${#strings.arraySplit(#strings.defaultString(image.vmware.instanceTypes, ''), ',')}" th:text="${str}"></div>
+                  </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.vmware.rootSize}"></th>
+                  <td th:text="${image.vmware.rootSize}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="remove-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.removeImage}"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-danger hidden" id="remove-modal-message"></div>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.image.no}"></label>
+              <input type="text" class="form-control" name="imageNo" th:value="${image.imageNo}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.image.name}"></label>
+              <input type="text" class="form-control" name="imageName" th:value="${image.imageName}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.image.nameDisp}"></label>
+              <input type="text" class="form-control" name="imageNameDisp" th:value="${image.imageNameDisp}" disabled="disabled"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-danger" id="remove-button">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+    <script src="/js/image/show.js"></script>
+  </body>
+</html>

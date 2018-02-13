@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.user})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.user}"></h3>
+        </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.user.no}"></th>
+                  <td th:text="${user.userNo}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.user.name}"></th>
+                  <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.user.enabled}"></th>
+                  <td th:text="#{${#bools.isTrue(user.enabled) ? 'label.user.enabled.true' : 'label.user.enabled.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.user.lastLoginDate}"></th>
+                  <td th:text="${user.lastLoginDate == null ? '' : #dates.format(user.lastLoginDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

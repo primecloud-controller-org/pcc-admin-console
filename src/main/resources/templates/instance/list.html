@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="common::head(#{label.instance})">
+  </head>
+  <body>
+    <!-- top menu -->
+    <div th:replace="common::top"></div>
+
+    <!-- sidebar -->
+    <div th:replace="common::sidebar"></div>
+
+    <!-- main content -->
+    <div class="main">
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="sub-header" th:text="#{label.instance}"></h3>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div class="alert alert-danger" th:if="${pair == 'message=not_selected'}" th:text="#{message.instance.notSelected}"></div>
+              <div class="alert alert-danger" th:if="${pair == 'message=not_exist'}" th:text="#{message.instance.notExist}"></div>
+            </div>
+          </th:block>
+        </th:block>
+
+        <div class="row">
+          <div class="table">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.instance.no}"></th>
+                  <th th:text="#{label.instance.fqdn}"></th>
+                  <th th:text="#{label.instance.userName}"></th>
+                  <th th:text="#{label.instance.platformName}"></th>
+                  <th th:text="#{label.instance.imageName}"></th>
+                  <th th:text="#{label.instance.status}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="instance : ${instances}">
+                  <td><a th:href="@{/instance/show(instanceNo=${instance.instanceNo})}" th:text="${instance.instanceNo}"></a></td>
+                  <td><a th:href="@{/instance/show(instanceNo=${instance.instanceNo})}" th:text="${instance.fqdn}"></a></td>
+                  <td th:text="${instance.farm.user.username}"></td>
+                  <td th:text="${instance.platform.platformName}"></td>
+                  <td th:text="${instance.image.imageName}"></td>
+                  <td th:text="${instance.status}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- script -->
+    <div th:replace="common::script"></div>
+  </body>
+</html>

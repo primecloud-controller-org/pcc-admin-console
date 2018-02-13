@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head(title)">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title} + ' - ' + #{label.title}"></title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
+  </head>
+  <body>
+    <!-- top menu -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/index" th:text="#{label.title}"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><span class="glyphicon glyphicon-user"></span> <span th:text="${T(org.springframework.security.core.context.SecurityContextHolder).context.authentication.name}"></span></a></li>
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> <span th:text="#{label.logout}"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- sidebar -->
+    <div class="sidebar" th:fragment="sidebar">
+      <ul class="nav nav-sidebar">
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/user') ? 'active' : ''}"><a href="/user" th:text="#{label.user}"></a></li>
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/farm') ? 'active' : ''}"><a href="/farm" th:text="#{label.farm}"></a></li>
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/instance') ? 'active' : ''}"><a href="/instance" th:text="#{label.instance}"></a></li>
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/platform') ? 'active' : ''}"><a href="/platform" th:text="#{label.platform}"></a></li>
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/image') ? 'active' : ''}"><a href="/image" th:text="#{label.image}"></a></li>
+        <li><hr/></li>
+        <li th:class="${#httpServletRequest.requestURI.startsWith('/password') ? 'active' : ''}"><a href="/password" th:text="#{label.password}"></a></li>
+      </ul>
+    </div>
+
+    <!-- script -->
+    <div th:fragment="script">
+      <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+      <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+      <script src="/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.js"></script>
+      <script src="/js/common.js"></script>
+    </div>
+  </body>
+</html>
