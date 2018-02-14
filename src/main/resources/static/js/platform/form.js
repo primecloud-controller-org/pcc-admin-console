@@ -165,9 +165,9 @@
       var platform = response.result;
 
       if (mode == "add") {
-        location.replace("/platform/show?platformNo=" + platform.platformNo + "&message=success_add");
+        location.href = app.contextPath + "/platform/show?platformNo=" + platform.platformNo + "&message=success_add";
       } else {
-        location.replace("/platform/show?platformNo=" + platform.platformNo + "&message=success_edit");
+        location.href = app.contextPath + "/platform/show?platformNo=" + platform.platformNo + "&message=success_edit";
       }
     });
   };

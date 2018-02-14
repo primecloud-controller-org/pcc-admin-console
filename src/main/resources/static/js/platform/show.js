@@ -46,7 +46,7 @@
       }
 
       $("#remove-modal").modal("hide");
-      location.replace("/platform?message=success_remove");
+      location.href = app.contextPath + "/platform?message=success_remove";
     });
   });
 
@@ -100,7 +100,7 @@
       }
 
       $("#add-vmware-instance-type-modal").modal("hide");
-      location.replace("/platform/show?platformNo=" + platformNo + "&message=success_add_vmware_instance_type");
+      location.href = app.contextPath + "/platform/show?platformNo=" + platformNo + "&message=success_add_vmware_instance_type";
     });
   });
 
@@ -158,7 +158,7 @@
       var platformNo = $("#remove-vmware-instance-type-modal input[name=platformNo]").val();
 
       $("#remove-vmware-instance-type-modal").modal("hide");
-      location.replace("/platform/show?platformNo=" + platformNo + "&message=success_remove_vmware_instance_type");
+      location.href = app.contextPath + "/platform/show?platformNo=" + platformNo + "&message=success_remove_vmware_instance_type";
     });
   });
 

@@ -3,7 +3,7 @@
     var password = $("input[name=password]").val();
 
     $.ajax({
-      url : "/rest/password/encode",
+      url : app.contextPath + "/rest/password/encode",
       type : "post",
       data : {
         password : password

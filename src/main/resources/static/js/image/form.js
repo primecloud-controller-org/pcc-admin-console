@@ -125,9 +125,9 @@
       var image = response.result;
 
       if (mode == "add") {
-        location.replace("/image/show?imageNo=" + image.imageNo + "&message=success_add");
+        location.href = app.contextPath + "/image/show?imageNo=" + image.imageNo + "&message=success_add";
       } else {
-        location.replace("/image/show?imageNo=" + image.imageNo + "&message=success_edit");
+        location.href = app.contextPath + "/image/show?imageNo=" + image.imageNo + "&message=success_edit";
       }
     });
   };

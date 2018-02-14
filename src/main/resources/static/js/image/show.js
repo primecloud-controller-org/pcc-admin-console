@@ -46,7 +46,7 @@
       }
 
       $("#remove-modal").modal("hide");
-      location.replace("/image?message=success_remove");
+      location.href = app.contextPath + "/image?message=success_remove";
     });
   });
 }());
