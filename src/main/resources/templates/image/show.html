@@ -19,8 +19,11 @@
         <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
           <th:block th:if="${#strings.startsWith(pair, 'message=')}">
             <div class="row">
-              <div class="alert alert-success" th:if="${pair == 'message=success_add'}" th:text="#{message.image.successAdd}"></div>
-              <div class="alert alert-success" th:if="${pair == 'message=success_edit'}" th:text="#{message.image.successEdit}"></div>
+              <div id="message" th:class="'alert ' + ${#strings.startsWith(pair, 'message=success') ? 'alert-success' : 'alert-danger'}">
+                <button class="close">&times;</button>
+                <span th:if="${pair == 'message=success_add'}" th:text="#{message.image.successAdd}"></span>
+                <span th:if="${pair == 'message=success_edit'}" th:text="#{message.image.successEdit}"></span>
+              </div>
             </div>
           </th:block>
         </th:block>
@@ -173,7 +176,10 @@
             <h4 class="modal-title" th:text="#{label.removeImage}"></h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger hidden" id="remove-modal-message"></div>
+            <div id="remove-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
             <div class="form-group required">
               <label class="control-label" for="label" th:text="#{label.image.no}"></label>
               <input type="text" class="form-control" name="imageNo" th:value="${image.imageNo}" disabled="disabled"/>

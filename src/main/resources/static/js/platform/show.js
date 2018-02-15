@@ -1,7 +1,7 @@
 (function() {
   $("#remove-modal-open").on("click", function() {
-    $("#remove-modal-message").text("");
-    $("#remove-modal-message").addClass("hidden");
+    $("#remove-modal-message span").text("");
+    $("#remove-modal-message").hide();
     $("#remove-button").prop("disabled", false);
     $("#remove-modal").modal("show");
 
@@ -18,8 +18,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-modal-message").text(response.error.message);
-        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-modal-message span").text(response.error.message);
+        $("#remove-modal-message").show();
         $("#remove-button").prop("disabled", true);
         return;
       }
@@ -39,8 +39,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-modal-message").text(response.error.message);
-        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-modal-message span").text(response.error.message);
+        $("#remove-modal-message").show();
         $("#remove-button").prop("disabled", true);
         return;
       }
@@ -64,8 +64,8 @@
     $(selectors["Cpu"]).val("");
     $(selectors["Memory"]).val("");
 
-    $("#add-vmware-instance-type-modal-message").text("");
-    $("#add-vmware-instance-type-modal-message").addClass("hidden");
+    $("#add-vmware-instance-type-modal-message span").text("");
+    $("#add-vmware-instance-type-modal-message").hide();
     $("#add-vmware-instance-type-modal").modal("show");
   });
 
@@ -86,8 +86,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#add-vmware-instance-type-modal-message").text(response.error.message);
-        $("#add-vmware-instance-type-modal-message").removeClass("hidden");
+        $("#add-vmware-instance-type-modal-message span").text(response.error.message);
+        $("#add-vmware-instance-type-modal-message").show();
 
         var code = response.error.code;
         for (name in selectors) {
@@ -112,8 +112,8 @@
     $("#remove-vmware-instance-type-modal input[name=cpu]").val($(this).data("cpu"));
     $("#remove-vmware-instance-type-modal input[name=memory]").val($(this).data("memory"));
 
-    $("#remove-vmware-instance-type-modal-message").text("")
-    $("#remove-vmware-instance-type-modal-message").addClass("hidden");
+    $("#remove-vmware-instance-type-modal-message span").text("")
+    $("#remove-vmware-instance-type-modal-message").hide();
     $("#remove-vmware-instance-type-button").prop("disabled", false);
     $("#remove-vmware-instance-type-modal").modal("show");
 
@@ -128,8 +128,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-vmware-instance-type-modal-message").text(response.error.message);
-        $("#remove-vmware-instance-type-modal-message").removeClass("hidden");
+        $("#remove-vmware-instance-type-modal-message span").text(response.error.message);
+        $("#remove-vmware-instance-type-modal-message").show();
         $("#remove-vmware-instance-type-button").prop("disabled", true);
         return;
       }
@@ -149,8 +149,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-vmware-instance-type-modal-message").text(response.error.message);
-        $("#remove-vmware-instance-type-modal-message").removeClass("hidden");
+        $("#remove-vmware-instance-type-modal-message span").text(response.error.message);
+        $("#remove-vmware-instance-type-modal-message").show();
         $("#remove-vmware-instance-type-button").prop("disabled", true);
         return;
       }

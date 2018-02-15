@@ -19,10 +19,13 @@
         <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
           <th:block th:if="${#strings.startsWith(pair, 'message=')}">
             <div class="row">
-              <div class="alert alert-success" th:if="${pair == 'message=success_add'}" th:text="#{message.platform.successAdd}"></div>
-              <div class="alert alert-success" th:if="${pair == 'message=success_edit'}" th:text="#{message.platform.successEdit}"></div>
-              <div class="alert alert-success" th:if="${pair == 'message=success_add_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successAdd}"></div>
-              <div class="alert alert-success" th:if="${pair == 'message=success_remove_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successRemove}"></div>
+              <div id="message" th:class="'alert ' + ${#strings.startsWith(pair, 'message=success') ? 'alert-success' : 'alert-danger'}">
+                <button class="close">&times;</button>
+                <span th:if="${pair == 'message=success_add'}" th:text="#{message.platform.successAdd}"></span>
+                <span th:if="${pair == 'message=success_edit'}" th:text="#{message.platform.successEdit}"></span>
+                <span th:if="${pair == 'message=success_add_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successAdd}"></span>
+                <span th:if="${pair == 'message=success_remove_vmware_instance_type'}" th:text="#{message.platform.vmwareInstanceType.successRemove}"></span>
+              </div>
             </div>
           </th:block>
         </th:block>
@@ -223,7 +226,10 @@
             <h4 class="modal-title" th:text="#{label.removePlatform}"></h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger hidden" id="remove-modal-message"></div>
+            <div id="remove-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
             <div class="form-group required">
               <label class="control-label" for="label" th:text="#{label.platform.no}"></label>
               <input type="text" class="form-control" name="platformNo" th:value="${platform.platformNo}" disabled="disabled"/>
@@ -255,7 +261,10 @@
             <h4 class="modal-title" th:text="#{label.addPlatformVmwareInstanceType}"></h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger hidden" id="add-vmware-instance-type-modal-message"></div>
+            <div id="add-vmware-instance-type-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
             <input type="hidden" name="platformNo" th:value="${platform.platformNo}"/>
             <div class="form-group required">
               <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.no}"></label>
@@ -292,7 +301,10 @@
             <h4 class="modal-title" th:text="#{label.removePlatformVmwareInstanceType}"></h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-danger hidden" id="remove-vmware-instance-type-modal-message"></div>
+            <div id="remove-vmware-instance-type-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
             <input type="hidden" name="platformNo" th:value="${platform.platformNo}"/>
             <div class="form-group required">
               <label class="control-label" for="label" th:text="#{label.platform.vmware.instanceType.no}"></label>

@@ -3,18 +3,21 @@
   <head th:replace="common::head(#{label.login})">
   </head>
   <body>
-    <div class="container">
-      <form class="form-login" th:action="@{/login}" method="post">
-        <h3 class="sub-header" th:text="#{label.title}"></h3>
+    <div class="form-login">
+      <h3 class="sub-header" th:text="#{label.title}"></h3>
 
-        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
-          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
-            <div class="row">
-              <div class="alert alert-danger" th:if="${pair == 'message=login_failure'}" th:text="#{message.login.loginFailure}"></div>
+      <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+        <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+          <div class="row">
+            <div id="message" th:class="'alert ' + ${#strings.startsWith(pair, 'message=success') ? 'alert-success' : 'alert-danger'}">
+              <button class="close">&times;</button>
+              <span th:if="${pair == 'message=login_failure'}" th:text="#{message.login.loginFailure}"></span>
             </div>
-          </th:block>
+          </div>
         </th:block>
+      </th:block>
 
+      <form th:action="@{/login}" method="post">
         <!-- username -->
         <div class="form-group">
           <label class="control-label" th:text="#{label.login.username}"></label>
@@ -29,7 +32,7 @@
 
         <button type="input" id="loginButton" class="btn btn-lg btn-primary btn-block" th:text="#{label.login}"></button>
       </form>
-    </div><!-- /container -->
+    </div>
 
     <!-- script -->
     <div th:replace="common::script"></div>

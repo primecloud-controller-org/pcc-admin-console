@@ -90,8 +90,8 @@
   });
 
   var submitPlatform = function(mode) {
-    $("#message").text("");
-    $("#message").addClass("hidden");
+    $("#message span").text("");
+    $("#message").hide();
 
     var data = {
       mode : mode,
@@ -146,8 +146,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#message").text(response.error.message);
-        $("#message").removeClass("hidden");
+        $("#message span").text(response.error.message);
+        $("#message").show();
         $("html,body").animate({
           scrollTop : 0
         }, "fast");

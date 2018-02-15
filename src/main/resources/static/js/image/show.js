@@ -1,7 +1,7 @@
 (function() {
   $("#remove-modal-open").on("click", function() {
-    $("#remove-modal-message").text("");
-    $("#remove-modal-message").addClass("hidden");
+    $("#remove-modal-message span").text("");
+    $("#remove-modal-message").hide();
     $("#remove-button").prop("disabled", false);
     $("#remove-modal").modal("show");
 
@@ -18,8 +18,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-modal-message").text(response.error.message);
-        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-modal-message span").text(response.error.message);
+        $("#remove-modal-message").show();
         $("#remove-button").prop("disabled", true);
         return;
       }
@@ -39,8 +39,8 @@
       cache : false
     }).done(function(response) {
       if (response.error) {
-        $("#remove-modal-message").text(response.error.message);
-        $("#remove-modal-message").removeClass("hidden");
+        $("#remove-modal-message span").text(response.error.message);
+        $("#remove-modal-message").show();
         $("#remove-button").prop("disabled", true);
         return;
       }

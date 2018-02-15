@@ -1,11 +1,17 @@
-var getQueryParameters = function() {
-  var parameters = {};
+(function() {
+  $(".alert .close").on("click", function() {
+    $(this).parent().fadeOut();
 
-  var array = location.search.slice(1).split("&");
-  for (var i = 0; i < array.length; i++) {
-    kv = array[i].split("=");
-    parameters[kv[0]] = kv[1];
-  }
+    var search = location.search.replace(/(^\?|&)message=.*?(&|$)/, function(str) {
+      if (str.charAt(str.length - 1) == "&") {
+        return str.charAt(0);
+      } else {
+        return "";
+      }
+    });
 
-  return parameters;
-};
+    if (search != location.search) {
+      history.replaceState(null, null, location.pathname + search);
+    }
+  });
+}());

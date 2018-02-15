@@ -19,8 +19,11 @@
         <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
           <th:block th:if="${#strings.startsWith(pair, 'message=')}">
             <div class="row">
-              <div class="alert alert-danger" th:if="${pair == 'message=not_selected'}" th:text="#{message.instance.notSelected}"></div>
-              <div class="alert alert-danger" th:if="${pair == 'message=not_exist'}" th:text="#{message.instance.notExist}"></div>
+              <div id="message" th:class="'alert ' + ${#strings.startsWith(pair, 'message=success') ? 'alert-success' : 'alert-danger'}">
+                <button class="close">&times;</button>
+                <span th:if="${pair == 'message=not_selected'}" th:text="#{message.instance.notSelected}"></span>
+                <span th:if="${pair == 'message=not_exist'}" th:text="#{message.instance.notExist}"></span>
+              </div>
             </div>
           </th:block>
         </th:block>
