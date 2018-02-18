@@ -2,17 +2,24 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.primecloudcontroller</groupId>
   <artifactId>pcc-admin-console</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.0-SNAPSHOT</version>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.10.RELEASE</version>
   </parent>
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <thymeleaf.version>3.0.8.RELEASE</thymeleaf.version>
     <thymeleaf-layout-dialect.version>2.3.0</thymeleaf-layout-dialect.version>
   </properties>
+  <scm>
+    <url>https://github.com/primecloud-controller-org/pcc-admin-console</url>
+    <connection>scm:git:https://github.com/primecloud-controller-org/pcc-admin-console.git</connection>
+    <developerConnection>scm:git:git@github.com:primecloud-controller-org/pcc-admin-console.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
   <build>
     <plugins>
       <plugin>
@@ -31,7 +38,7 @@
         </executions>
         <configuration>
           <target>
-            <touch file="${project.build.directory}/${project.version}"/>
+            <touch file="${project.build.directory}/${project.version}" />
           </target>
         </configuration>
       </plugin>
@@ -49,6 +56,12 @@
           <descriptors>
             <descriptor>src/main/assembly/dist.xml</descriptor>
           </descriptors>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <goals>package</goals>
         </configuration>
       </plugin>
     </plugins>
