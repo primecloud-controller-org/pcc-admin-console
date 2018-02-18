@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/adc?useSSL=false
+    username: adc
+    password: password
+
+server:
+  port: 8080
+  contextPath: 
+
+logging:
+  file: log/pcc-admin-console.log
+  pattern:
+    console:
+  level:
+    root: WARN
+    org.primecloudcontroller.admin: INFO
+
+app:
+  users:
+    admin: $2a$10$ad5AgeWc95z99iNhtciuFuY1reKPdhPzloqgpdjm5rm2wd/varCCW

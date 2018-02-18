@@ -1,0 +1,11 @@
+[Unit]
+Description=PCC Admin Console
+
+[Service]
+WorkingDirectory=/opt/adc/app/pcc-admin-console
+SyslogIdentifier=pcc-admin-console
+ExecStart=/usr/bin/java -jar -Xmx256m pcc-admin-console.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

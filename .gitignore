@@ -1,5 +1,5 @@
-.project
-.classpath
-.settings
-target
-src/main/resources/application-env.yml
+/.project
+/.classpath
+/.settings
+/target
+/application-env.yml

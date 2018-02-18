@@ -16,8 +16,7 @@ spring:
 logging:
   level:
 #    root: WARN
-#    org.springframework: DEBUG
-#    org.hibernate: TRACE
+#    org.primecloudcontroller.admin: INFO
 
 app:
 #  users:
