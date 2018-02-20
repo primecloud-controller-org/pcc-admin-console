@@ -57,7 +57,7 @@
               <div class="col-md-4">
                 <select class="form-control" name="platformNo">
                   <th:block th:each="platform : ${platforms}" th:if="${image == null || image?.platform.platformType == platform.platformType}">
-                    <option  th:value="${platform.platformNo}" th:text="${platform.platformName} + ' - ' + ${platform.platformNameDisp}" th:data-platform_type="${platform.platformType}"></option>
+                    <option th:value="${platform.platformNo}" th:text="${platform.platformName} + ' - ' + ${platform.platformNameDisp}" th:data-platform_type="${platform.platformType}" th:selected="${image?.platformNo == platform.platformNo}"></option>
                   </th:block>
                 </select>
               </div>
