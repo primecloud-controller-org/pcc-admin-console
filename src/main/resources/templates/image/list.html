@@ -47,6 +47,7 @@
                   <th th:text="#{label.image.no}"></th>
                   <th th:text="#{label.image.name}"></th>
                   <th th:text="#{label.image.nameDisp}"></th>
+                  <th th:text="#{label.image.os}"></th>
                   <th th:text="#{label.image.platformName}"></th>
                   <th th:text="#{label.image.selectable}"></th>
                   <th th:text="#{label.image.viewOrder}"></th>
@@ -57,6 +58,7 @@
                   <td><a th:href="@{/image/show(imageNo=${image.imageNo})}" th:text="${image.imageNo}"></a></td>
                   <td><a th:href="@{/image/show(imageNo=${image.imageNo})}" th:text="${image.imageName}"></a></td>
                   <td th:text="${image.imageNameDisp}"></td>
+                  <td th:text="${image.os}"></td>
                   <td th:text="${image.platform.platformName}"></td>
                   <td th:text="#{${#bools.isTrue(image.selectable) ? 'label.true' : 'label.false'}}"></td>
                   <td th:text="${image.viewOrder}"></td>
