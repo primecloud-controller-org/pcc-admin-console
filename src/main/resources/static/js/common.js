@@ -14,4 +14,11 @@
       history.replaceState(null, null, location.pathname + search);
     }
   });
+
+  $(document).ready(function() {
+    var listTable = $("#listTable");
+    if (listTable) {
+      listTable.tablesorter();
+    }
+  });
 }());
