@@ -98,14 +98,14 @@
       <version>3.7</version>
     </dependency>
     <dependency>
-      <groupId>org.webjars</groupId>
+      <groupId>org.webjars.bower</groupId>
       <artifactId>jquery</artifactId>
       <version>3.3.1</version>
     </dependency>
     <dependency>
-      <groupId>org.webjars</groupId>
+      <groupId>org.webjars.bower</groupId>
       <artifactId>bootstrap</artifactId>
-      <version>3.3.7-1</version>
+      <version>3.3.7</version>
     </dependency>
     <dependency>
       <groupId>org.webjars.bower</groupId>

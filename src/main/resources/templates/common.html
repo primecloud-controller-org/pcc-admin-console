@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="${title} + ' - ' + #{label.title}"></title>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/dist/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/common.css}"/>
   </head>
@@ -40,8 +40,8 @@
 
     <!-- script -->
     <div th:fragment="script">
-      <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-      <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+      <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+      <script th:src="@{/webjars/bootstrap/3.3.7/dist/js/bootstrap.min.js}"></script>
       <script th:src="@{/webjars/ie10-viewport-bug-workaround/1.0.3/dist/ie10-viewport-bug-workaround.min.js}"></script>
       <script th:src="@{/js/common.js}"></script>
       <script type="text/javascript" th:inline="text">
