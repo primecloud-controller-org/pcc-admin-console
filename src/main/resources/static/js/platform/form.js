@@ -102,7 +102,7 @@
       internal : $(selectors["Internal"]).prop("checked"),
       proxy : $(selectors["Proxy"]).prop("checked"),
       selectable : $(selectors["Selectable"]).prop("checked"),
-      viewOrder : $(selectors["VsiewOrder"]).val()
+      viewOrder : $(selectors["ViewOrder"]).val()
     };
 
     var actionUrl;
