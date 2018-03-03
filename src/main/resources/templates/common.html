@@ -28,13 +28,13 @@
     <!-- sidebar -->
     <div class="sidebar" th:fragment="sidebar">
       <ul class="nav nav-sidebar">
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/user') ? 'active' : ''}"><a th:href="@{/user}" th:text="#{label.user}"></a></li>
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/farm') ? 'active' : ''}"><a th:href="@{/farm}" th:text="#{label.farm}"></a></li>
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/instance') ? 'active' : ''}"><a th:href="@{/instance}" th:text="#{label.instance}"></a></li>
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/platform') ? 'active' : ''}"><a th:href="@{/platform}" th:text="#{label.platform}"></a></li>
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/image') ? 'active' : ''}"><a th:href="@{/image}" th:text="#{label.image}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/user') ? 'active' : ''}"><a th:href="@{/user}" th:text="#{label.user}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/farm') ? 'active' : ''}"><a th:href="@{/farm}" th:text="#{label.farm}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/instance') ? 'active' : ''}"><a th:href="@{/instance}" th:text="#{label.instance}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/platform') ? 'active' : ''}"><a th:href="@{/platform}" th:text="#{label.platform}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/image') ? 'active' : ''}"><a th:href="@{/image}" th:text="#{label.image}"></a></li>
         <li><hr/></li>
-        <li th:class="${#httpServletRequest.requestURI.startsWith('/password') ? 'active' : ''}"><a th:href="@{/password}" th:text="#{label.password}"></a></li>
+        <li th:class="${#strings.contains(#httpServletRequest.requestURI, '/password') ? 'active' : ''}"><a th:href="@{/password}" th:text="#{label.password}"></a></li>
       </ul>
     </div>
 
