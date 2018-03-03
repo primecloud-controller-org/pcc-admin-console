@@ -13,6 +13,17 @@
     <div class="main">
       <div class="container-fluid">
         <div class="row">
+          <div class="top-right-command">
+            <a th:href="@{/platform/form(platformNo=${platform.platformNo})}">
+              <button type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
+              </button>
+            </a>
+            <button type="button" class="btn btn-danger" id="remove-modal-open">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
+            </button>
+          </div>
+
           <h3 class="sub-header" th:text="#{label.platform}"></h3>
         </div>
 
@@ -29,19 +40,6 @@
             </div>
           </th:block>
         </th:block>
-
-        <div class="row">
-          <div class="text-right">
-            <a th:href="@{/platform/form(platformNo=${platform.platformNo})}">
-              <button type="button" class="btn btn-primary">
-                <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
-              </button>
-            </a>
-            <button type="button" class="btn btn-danger" id="remove-modal-open">
-              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
-            </button>
-          </div>
-        </div>
 
         <div class="row">
           <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>

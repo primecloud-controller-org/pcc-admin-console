@@ -13,6 +13,14 @@
     <div class="main">
       <div class="container-fluid">
         <div class="row">
+          <div class="top-right-command">
+            <a th:href="@{/image/form}">
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+              </button>
+            </a>
+          </div>
+
           <h3 class="sub-header" th:text="#{label.image}"></h3>
         </div>
 
@@ -28,16 +36,6 @@
             </div>
           </th:block>
         </th:block>
-
-        <div class="row">
-          <div class="text-right">
-            <a th:href="@{/image/form}">
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
-              </button>
-            </a>
-          </div>
-        </div>
 
         <div class="row">
           <div class="table">
