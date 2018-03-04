@@ -73,13 +73,16 @@ public class PlatformService extends AbstractService {
             return null;
         }
 
-        PlatformAws platformAws = platformAwsRepository.findOne(platformNo);
-        platform.setAws(platformAws);
+        // AWS
+        if ("aws".equals(platform.getPlatformType())) {
+            PlatformAws platformAws = platformAwsRepository.findOne(platformNo);
+            platform.setAws(platformAws);
+        }
+        // VMware
+        else if ("vmware".equals(platform.getPlatformType())) {
+            PlatformVmware platformVmware = platformVmwareRepository.findOne(platformNo);
+            platform.setVmware(platformVmware);
 
-        PlatformVmware platformVmware = platformVmwareRepository.findOne(platformNo);
-        platform.setVmware(platformVmware);
-
-        if (platformVmware != null) {
             List<PlatformVmwareInstanceType> platformVmwareInstanceTypes = platformVmwareInstanceTypeRepository
                     .findByPlatformNoOrderByInstanceTypeNo(platformNo);
             platformVmware.setInstanceTypes(platformVmwareInstanceTypes);

@@ -88,14 +88,19 @@ public class ImageService extends AbstractService {
             return null;
         }
 
-        ImageAws imageAws = imageAwsRepository.findOne(imageNo);
-        image.setAws(imageAws);
-
-        ImageVmware imageVmware = imageVmwareRepository.findOne(imageNo);
-        image.setVmware(imageVmware);
-
         Platform platform = platformService.findOne(image.getPlatformNo());
         image.setPlatform(platform);
+
+        // AWS
+        if ("aws".equals(platform.getPlatformType())) {
+            ImageAws imageAws = imageAwsRepository.findOne(imageNo);
+            image.setAws(imageAws);
+        }
+        // VMware
+        else if ("vmware".equals(platform.getPlatformType())) {
+            ImageVmware imageVmware = imageVmwareRepository.findOne(imageNo);
+            image.setVmware(imageVmware);
+        }
 
         return image;
     }

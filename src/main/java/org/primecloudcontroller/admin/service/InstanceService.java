@@ -119,22 +119,25 @@ public class InstanceService extends AbstractService {
             return null;
         }
 
-        AwsInstance awsInstance = awsInstanceRepository.findOne(instanceNo);
-        instance.setAws(awsInstance);
+        Platform platform = platformService.findOne(instance.getPlatformNo());
+        instance.setPlatform(platform);
 
-        VmwareInstance vmwareInstance = vmwareInstanceRepository.findOne(instanceNo);
-        instance.setVmware(vmwareInstance);
+        // AWS
+        if ("aws".equals(platform.getPlatformType())) {
+            AwsInstance awsInstance = awsInstanceRepository.findOne(instanceNo);
+            instance.setAws(awsInstance);
+        }
+        // VMware
+        else if ("vmware".equals(platform.getPlatformType())) {
+            VmwareInstance vmwareInstance = vmwareInstanceRepository.findOne(instanceNo);
+            instance.setVmware(vmwareInstance);
 
-        if (vmwareInstance != null) {
             VmwareKeyPair vmwareKeyPair = vmwareKeyPairRepository.findOne(vmwareInstance.getKeyPairNo());
             vmwareInstance.setKeyPair(vmwareKeyPair);
         }
 
         Farm farm = farmService.findOne(instance.getFarmNo());
         instance.setFarm(farm);
-
-        Platform platform = platformService.findOne(instance.getPlatformNo());
-        instance.setPlatform(platform);
 
         Image image = imageService.findOne(instance.getImageNo());
         instance.setImage(image);
