@@ -57,11 +57,6 @@ body {
   color: red;
 }
 
-.top-right-command {
-  float: right;
-  margin-top: 15px;
-}
-
 .tablesorter th {
   background-color: #8cb3d9;
 }

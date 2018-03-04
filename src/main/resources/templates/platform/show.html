@@ -13,7 +13,7 @@
     <div class="main">
       <div class="container-fluid">
         <div class="row">
-          <div class="top-right-command">
+          <div class="pull-right" style="margin-top: 15px">
             <a th:href="@{/platform/form(platformNo=${platform.platformNo})}">
               <button type="button" class="btn btn-primary">
                 <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
@@ -175,15 +175,13 @@
         </div>
 
         <div class="row" th:if="${platform.vmware != null}">
-          <h4 class="sub-header" th:text="#{label.platform.vmware.instanceType}"></h4>
-
-          <div class="row">
-            <div class="text-right">
-              <button type="button" class="btn btn-default" id="add-vmware-instance-type-modal-open">
-                <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
-              </button>
-            </div>
+          <div class="pull-right" style="margin-top: 3px">
+            <button type="button" class="btn btn-default" id="add-vmware-instance-type-modal-open">
+              <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
+            </button>
           </div>
+
+          <h4 class="sub-header" th:text="#{label.platform.vmware.instanceType}"></h4>
 
           <div class="table-responsive">
             <table class="table table-striped">
