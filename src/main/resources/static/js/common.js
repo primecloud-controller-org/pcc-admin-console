@@ -16,9 +16,9 @@
   });
 
   $(document).ready(function() {
-    var listTable = $("#listTable");
-    if (listTable) {
-      listTable.tablesorter();
+    var tablesorter = $(".tablesorter");
+    if (tablesorter) {
+      tablesorter.tablesorter();
     }
   });
 }());
