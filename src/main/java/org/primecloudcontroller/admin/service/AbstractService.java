@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.primecloudcontroller.admin.repository.ApiCertificateRepository;
 import org.primecloudcontroller.admin.repository.AwsInstanceRepository;
 import org.primecloudcontroller.admin.repository.FarmRepository;
 import org.primecloudcontroller.admin.repository.ImageAwsRepository;
@@ -77,6 +78,9 @@ public abstract class AbstractService {
 
     @Autowired
     protected ImageVmwareRepository imageVmwareRepository;
+
+    @Autowired
+    protected ApiCertificateRepository apiCertificateRepository;
 
     protected Map<String, String> trim(Map<String, String> params) {
         Map<String, String> params2 = new LinkedHashMap<String, String>();

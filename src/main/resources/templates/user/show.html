@@ -16,6 +16,25 @@
           <h3 class="sub-header" th:text="#{label.user}"></h3>
         </div>
 
+        <div id="error-message" class="alert alert-danger" style="display: none;">
+          <button class="close">&times;</button>
+          <span></span>
+        </div>
+
+        <th:block th:each="pair : ${#strings.arraySplit(#strings.defaultString(#httpServletRequest.queryString, ''), '&amp;')}">
+          <th:block th:if="${#strings.startsWith(pair, 'message=')}">
+            <div class="row">
+              <div id="message" th:class="'alert ' + ${#strings.startsWith(pair, 'message=success') ? 'alert-success' : 'alert-danger'}">
+                <button class="close">&times;</button>
+                <span th:if="${pair == 'message=success_create'}" th:text="#{message.apiCertificate.successCreate}"></span>
+                <span th:if="${pair == 'message=success_delete'}" th:text="#{message.apiCertificate.successDelete}"></span>
+                <span th:if="${pair == 'message=success_enable'}" th:text="#{message.apiCertificate.successEnable}"></span>
+                <span th:if="${pair == 'message=success_disable'}" th:text="#{message.apiCertificate.successDisable}"></span>
+              </div>
+            </div>
+          </th:block>
+        </th:block>
+
         <div class="row">
           <h4 class="sub-header" th:text="#{label.basicInfo}"></h4>
 
@@ -42,10 +61,120 @@
             </table>
           </div>
         </div>
+
+        <div class="row">
+          <div class="pull-right" style="margin-top: 3px">
+            <button th:if="${apiCertificate == null}" type="button" class="btn btn-default" id="create-api-certificate-modal-open">
+              <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.create}"></span>
+            </button>
+            <button th:if="${apiCertificate != null && #bools.isTrue(apiCertificate.enabled)}" type="button" class="btn btn-warning" id="disable-api-certificate-modal-open" th:data-user_no="${user.userNo}">
+              <span class="glyphicon glyphicon-remove"></span> <span th:text="#{label.disable}"></span>
+            </button>
+            <button th:if="${apiCertificate != null && !#bools.isTrue(apiCertificate.enabled)}" type="button" class="btn btn-primary" id="enable-api-certificate-modal-open" th:data-user_no="${user.userNo}">
+              <span class="glyphicon glyphicon-ok"></span> <span th:text="#{label.enable}"></span>
+            </button>
+            <button th:if="${apiCertificate != null}" type="button" class="btn btn-danger" id="delete-api-certificate-modal-open">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.delete}"></span>
+            </button>
+          </div>
+
+          <h4 class="sub-header" th:text="#{label.apiCertificate}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <th class="col-md-3" th:text="#{label.apiCertificate.apiAccessId}"></th>
+                  <td th:text="${apiCertificate?.apiAccessId}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.apiCertificate.enabled}"></th>
+                  <td th:if="${apiCertificate == null}"></td>
+                  <td th:if="${apiCertificate != null}" th:text="#{${#bools.isTrue(apiCertificate.enabled) ? 'label.apiCertificate.enabled.true' : 'label.apiCertificate.enabled.false'}}"></td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.apiCertificate.lastUseDate}"></th>
+                  <td th:text="${apiCertificate?.lastUseDate == null ? '' : #dates.format(apiCertificate.lastUseDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div th:if="${apiCertificate == null}" id="create-api-certificate-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.createApiCertificate}"></h4>
+          </div>
+          <div class="modal-body">
+            <div id="create-api-certificate-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
+            <input type="hidden" name="userNo" th:value="${user.userNo}"/>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.apiCertificate.apiAccessId}"></label>
+              <input type="text" class="form-control" name="apiAccessId"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.apiCertificate.apiSecretKey}"></label>
+              <input type="text" class="form-control" name="apiSecretKey"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-primary" id="create-api-certificate-button">
+              <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.create}"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div th:if="${apiCertificate != null}" id="delete-api-certificate-modal" class="modal fade" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only" th:text="#{label.close}"></span></button>
+            <h4 class="modal-title" th:text="#{label.removeApiCertificate}"></h4>
+          </div>
+          <div class="modal-body">
+            <div id="delete-api-certificate-modal-message" class="alert alert-danger" style="display: none;">
+              <button class="close">&times;</button>
+              <span></span>
+            </div>
+            <input type="hidden" name="userNo" th:value="${user.userNo}"/>
+            <div class="form-group required">
+              <label class="control-label" for="label" th:text="#{label.apiCertificate.apiAccessId}"></label>
+              <input type="text" class="form-control" name="apiAccessId" th:value="${apiCertificate.apiAccessId}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.apiCertificate.enabled}"></label>
+              <input type="text" class="form-control" name="enabled" th:value="#{${#bools.isTrue(apiCertificate.enabled) ? 'label.apiCertificate.enabled.true' : 'label.apiCertificate.enabled.false'}}" disabled="disabled"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="label" th:text="#{label.apiCertificate.lastUseDate}"></label>
+              <input type="text" class="form-control" name="lastUseDate" th:value="${#dates.format(apiCertificate.lastUseDate, 'yyyy-MM-dd HH:mm:ss')}" disabled="disabled"/>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{label.close}"></button>
+            <button type="button" class="btn btn-danger" id="delete-api-certificate-button">
+              <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.delete}"></span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- script -->
     <div th:replace="common::script"></div>
+    <script th:src="@{/js/user/show.js}"></script>
   </body>
 </html>

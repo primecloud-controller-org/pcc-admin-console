@@ -20,7 +20,9 @@ package org.primecloudcontroller.admin.controller.web;
 
 import java.util.List;
 
+import org.primecloudcontroller.admin.model.ApiCertificate;
 import org.primecloudcontroller.admin.model.User;
+import org.primecloudcontroller.admin.service.ApiCertificateService;
 import org.primecloudcontroller.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,9 @@ public class UserController extends AbstractWebController {
 
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    protected ApiCertificateService apiCertificateService;
 
     @RequestMapping(path = "/user", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -63,6 +68,10 @@ public class UserController extends AbstractWebController {
         }
 
         model.addAttribute("user", user);
+
+        // ApiCertificate
+        ApiCertificate apiCertificate = apiCertificateService.findOne(user.getUserNo());
+        model.addAttribute("apiCertificate", apiCertificate);
 
         return new ModelAndView("user/show", model);
     }
