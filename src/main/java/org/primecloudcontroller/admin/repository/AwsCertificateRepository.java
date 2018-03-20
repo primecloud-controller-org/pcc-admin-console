@@ -20,13 +20,14 @@ package org.primecloudcontroller.admin.repository;
 
 import java.util.List;
 
-import org.primecloudcontroller.admin.model.VmwareKeyPair;
+import org.primecloudcontroller.admin.model.AwsCertificate;
+import org.primecloudcontroller.admin.model.AwsCertificatePK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface VmwareKeyPairRepository extends JpaRepository<VmwareKeyPair, Long> {
+public interface AwsCertificateRepository extends JpaRepository<AwsCertificate, AwsCertificatePK> {
 
-    List<VmwareKeyPair> findByUserNo(Long userNo);
+    List<AwsCertificate> findByUserNo(Long userNo);
 
 }

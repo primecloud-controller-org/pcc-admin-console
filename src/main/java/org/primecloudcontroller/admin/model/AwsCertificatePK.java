@@ -16,17 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with PrimeCloud Controller(TM). If not, see <http://www.gnu.org/licenses/>.
  */
-package org.primecloudcontroller.admin.repository;
+package org.primecloudcontroller.admin.model;
 
-import java.util.List;
+import java.io.Serializable;
 
-import org.primecloudcontroller.admin.model.VmwareKeyPair;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-@Repository
-public interface VmwareKeyPairRepository extends JpaRepository<VmwareKeyPair, Long> {
+@Embeddable
+public class AwsCertificatePK implements Serializable {
 
-    List<VmwareKeyPair> findByUserNo(Long userNo);
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "USER_NO")
+    private Long userNo;
+
+    @Column(name = "PLATFORM_NO")
+    private Long platformNo;
+
+    public Long getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(Long userNo) {
+        this.userNo = userNo;
+    }
+
+    public Long getPlatformNo() {
+        return platformNo;
+    }
+
+    public void setPlatformNo(Long platformNo) {
+        this.platformNo = platformNo;
+    }
 
 }

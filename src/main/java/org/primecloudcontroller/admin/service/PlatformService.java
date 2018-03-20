@@ -18,6 +18,8 @@
  */
 package org.primecloudcontroller.admin.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +27,12 @@ import java.util.Map;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primecloudcontroller.admin.exception.ApplicationException;
+import org.primecloudcontroller.admin.model.AwsCertificate;
 import org.primecloudcontroller.admin.model.Platform;
 import org.primecloudcontroller.admin.model.PlatformAws;
 import org.primecloudcontroller.admin.model.PlatformVmware;
 import org.primecloudcontroller.admin.model.PlatformVmwareInstanceType;
+import org.primecloudcontroller.admin.model.VmwareKeyPair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -613,6 +617,26 @@ public class PlatformService extends AbstractService {
         PlatformVmwareInstanceType instanceType = checkRemoveVmwareInstanceType(instanceTypeNoStr);
 
         platformVmwareInstanceTypeRepository.delete(instanceType);
+    }
+
+    public List<Platform> findAvailables(Long userNo) {
+        List<Platform> platforms = new ArrayList<>();
+
+        List<AwsCertificate> awsCertificates = awsCertificateRepository.findByUserNo(userNo);
+        for (AwsCertificate awsCertificate : awsCertificates) {
+            Platform platform = findOne(awsCertificate.getPlatformNo());
+            platforms.add(platform);
+        }
+
+        List<VmwareKeyPair> vmwareKeyPairs = vmwareKeyPairRepository.findByUserNo(userNo);
+        for (VmwareKeyPair vmwareKeyPair : vmwareKeyPairs) {
+            Platform platform = findOne(vmwareKeyPair.getPlatformNo());
+            platforms.add(platform);
+        }
+
+        Collections.sort(platforms, (p1, p2) -> p1.getPlatformNo().compareTo(p2.getPlatformNo()));
+
+        return platforms;
     }
 
 }

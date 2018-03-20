@@ -101,6 +101,35 @@
           </div>
         </div>
 
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.user.availablePlatform}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.platform.no}"></th>
+                  <th th:text="#{label.platform.name}"></th>
+                  <th th:text="#{label.platform.nameDisp}"></th>
+                  <th th:text="#{label.platform.type}"></th>
+                  <th th:text="#{label.platform.selectable}"></th>
+                  <th th:text="#{label.platform.viewOrder}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="platform : ${availablePlatforms}">
+                  <td><a th:href="@{/platform/show(platformNo=${platform.platformNo})}" th:text="${platform.platformNo}"></a></td>
+                  <td><a th:href="@{/platform/show(platformNo=${platform.platformNo})}" th:text="${platform.platformName}"></a></td>
+                  <td th:text="${platform.platformNameDisp}"></td>
+                  <td th:text="#{${'label.' + platform.platformType}}"></td>
+                  <td th:text="#{${#bools.isTrue(platform.selectable) ? 'label.true' : 'label.false'}}"></td>
+                  <td th:text="${platform.viewOrder}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -135,7 +164,6 @@
         </div>
       </div>
     </div>
-
 
     <div th:if="${apiCertificate != null}" id="delete-api-certificate-modal" class="modal fade" role="dialog" aria-hidden="true">
       <div class="modal-dialog">

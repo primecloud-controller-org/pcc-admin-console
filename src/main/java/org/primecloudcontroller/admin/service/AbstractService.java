@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.primecloudcontroller.admin.repository.ApiCertificateRepository;
+import org.primecloudcontroller.admin.repository.AwsCertificateRepository;
 import org.primecloudcontroller.admin.repository.AwsInstanceRepository;
 import org.primecloudcontroller.admin.repository.FarmRepository;
 import org.primecloudcontroller.admin.repository.ImageAwsRepository;
@@ -51,6 +52,9 @@ public abstract class AbstractService {
 
     @Autowired
     protected AwsInstanceRepository awsInstanceRepository;
+
+    @Autowired
+    protected AwsCertificateRepository awsCertificateRepository;
 
     @Autowired
     protected VmwareInstanceRepository vmwareInstanceRepository;
