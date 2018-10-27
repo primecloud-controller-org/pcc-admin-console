@@ -68,9 +68,11 @@ public class PlatformController extends AbstractWebController {
     }
 
     @RequestMapping(path = "/platform/form", method = RequestMethod.GET)
-    public ModelAndView form(@RequestParam(name = "platformNo", required = false) String platformNo) {
+    public ModelAndView form(@RequestParam(name = "platformNo", required = false) String platformNo,
+            @RequestParam(name = "copyPlatformNo", required = false) String copyPlatformNo) {
         ModelMap model = new ModelMap();
 
+        // Edit
         if (toLong(platformNo) != null) {
             Platform platform = platformService.findOne(toLong(platformNo));
 
@@ -80,6 +82,18 @@ public class PlatformController extends AbstractWebController {
             }
 
             model.addAttribute("platform", platform);
+        }
+        // Copy
+        else if (toLong(copyPlatformNo) != null) {
+            Platform platform = platformService.findOne(toLong(copyPlatformNo));
+
+            if (platform == null) {
+                model.addAttribute("message", "not_exist");
+                return new ModelAndView("redirect:/platform", model);
+            }
+
+            model.addAttribute("platform", platform);
+            model.addAttribute("mode", "copy");
         }
 
         return new ModelAndView("platform/form", model);

@@ -31,7 +31,7 @@
             <div class="form-group required">
               <label class="control-label col-md-3" th:text="#{label.platform.no}"></label>
               <div class="col-md-1">
-                <input type="text" class="form-control" name="platformNo" th:value="${platform?.platformNo}" th:readonly="${platform == null ? false : true}"/>
+                <input type="text" class="form-control" name="platformNo" th:value="${platform?.platformNo}" th:readonly="${platform == null || mode == 'copy' ? false : true}"/>
               </div>
             </div>
 
@@ -232,12 +232,12 @@
           </div><!-- /#platformVmware -->
 
           <div class="row">
-            <div class="form-group" th:if="${platform == null}">
+            <div class="form-group" th:if="${platform == null || mode == 'copy'}">
               <button type="button" class="btn btn-primary" id="addButton">
                 <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
               </button>
             </div>
-            <div class="form-group" th:if="${platform != null}">
+            <div class="form-group" th:if="${platform != null && mode != 'copy'}">
               <button type="submit" class="btn btn-primary" id="editButton">
                 <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
               </button>

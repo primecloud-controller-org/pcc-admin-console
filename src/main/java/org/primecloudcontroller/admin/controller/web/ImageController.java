@@ -76,9 +76,11 @@ public class ImageController extends AbstractWebController {
     }
 
     @RequestMapping(path = "/image/form", method = RequestMethod.GET)
-    public ModelAndView form(@RequestParam(name = "imageNo", required = false) String imageNo) {
+    public ModelAndView form(@RequestParam(name = "imageNo", required = false) String imageNo,
+            @RequestParam(name = "copyImageNo", required = false) String copyImageNo) {
         ModelMap model = new ModelMap();
 
+        // Edit
         if (toLong(imageNo) != null) {
             Image image = imageService.findOne(toLong(imageNo));
 
@@ -88,6 +90,18 @@ public class ImageController extends AbstractWebController {
             }
 
             model.addAttribute("image", image);
+        }
+        // Copy
+        else if (toLong(copyImageNo) != null) {
+            Image image = imageService.findOne(toLong(copyImageNo));
+
+            if (image == null) {
+                model.addAttribute("message", "not_exist");
+                return new ModelAndView("redirect:/image", model);
+            }
+
+            model.addAttribute("image", image);
+            model.addAttribute("mode", "copy");
         }
 
         List<Platform> platforms = platformService.findAll();

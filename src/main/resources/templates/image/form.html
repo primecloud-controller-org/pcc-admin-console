@@ -31,7 +31,7 @@
             <div class="form-group required">
               <label class="control-label col-md-3" th:text="#{label.image.no}"></label>
               <div class="col-md-1">
-                <input type="text" class="form-control" name="imageNo" th:value="${image?.imageNo}" th:readonly="${image == null ? false : true}"/>
+                <input type="text" class="form-control" name="imageNo" th:value="${image?.imageNo}" th:readonly="${image == null || mode == 'copy' ? false : true}"/>
               </div>
             </div>
 
@@ -209,12 +209,12 @@
           </div><!-- /#imageVmware -->
 
           <div class="row">
-            <div class="form-group" th:if="${image == null}">
+            <div class="form-group" th:if="${image == null || mode == 'copy'}">
               <button type="button" class="btn btn-primary" id="addButton">
                 <span class="glyphicon glyphicon-plus"></span> <span th:text="#{label.add}"></span>
               </button>
             </div>
-            <div class="form-group" th:if="${image != null}">
+            <div class="form-group" th:if="${image != null && mode != 'copy'}">
               <button type="submit" class="btn btn-primary" id="editButton">
                 <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
               </button>

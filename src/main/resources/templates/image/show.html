@@ -19,6 +19,11 @@
                 <span class="glyphicon glyphicon-pencil"></span> <span th:text="#{label.edit}"></span>
               </button>
             </a>
+            <a th:href="@{/image/form(copyImageNo=${image.imageNo})}">
+              <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-share-alt"></span> <span th:text="#{label.copyCreate}"></span>
+              </button>
+            </a>
             <button type="button" class="btn btn-danger" id="remove-modal-open">
               <span class="glyphicon glyphicon-trash"></span> <span th:text="#{label.remove}"></span>
             </button>
