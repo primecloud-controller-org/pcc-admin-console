@@ -18,12 +18,17 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.primecloudcontroller.admin.model.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
+
+    List<Image> findByImageNoIn(Collection<Long> imageNos);
 
     boolean existsByPlatformNoAndImageName(Long platformNo, String imageName);
 

@@ -54,6 +54,34 @@
             </table>
           </div>
         </div>
+
+        <div class="row">
+          <h4 class="sub-header" th:text="#{label.instance}"></h4>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th th:text="#{label.instance.no}"></th>
+                  <th th:text="#{label.instance.fqdn}"></th>
+                  <th th:text="#{label.instance.platformName}"></th>
+                  <th th:text="#{label.instance.imageName}"></th>
+                  <th th:text="#{label.instance.status}"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="instance : ${instances}">
+                  <td><a th:href="@{/instance/show(instanceNo=${instance.instanceNo})}" th:text="${instance.instanceNo}"></a></td>
+                  <td><a th:href="@{/instance/show(instanceNo=${instance.instanceNo})}" th:text="${instance.fqdn}"></a></td>
+                  <td th:text="${instance.platform.platformName}"></td>
+                  <td th:text="${instance.image.imageName}"></td>
+                  <td th:text="${instance.status}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </div>
 

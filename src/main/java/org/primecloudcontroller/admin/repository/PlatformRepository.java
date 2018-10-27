@@ -18,12 +18,17 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.primecloudcontroller.admin.model.Platform;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlatformRepository extends JpaRepository<Platform, Long> {
+
+    List<Platform> findByPlatformNoIn(Collection<Long> platformNos);
 
     boolean existsByPlatformName(String platformName);
 

@@ -18,11 +18,16 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.primecloudcontroller.admin.model.PlatformVmware;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlatformVmwareRepository extends JpaRepository<PlatformVmware, Long> {
+
+    List<PlatformVmware> findByPlatformNoIn(Collection<Long> platformNos);
 
 }

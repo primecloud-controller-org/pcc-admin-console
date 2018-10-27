@@ -18,9 +18,12 @@
  */
 package org.primecloudcontroller.admin.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.primecloudcontroller.admin.model.AwsInstance;
 import org.primecloudcontroller.admin.model.Farm;
@@ -143,6 +146,78 @@ public class InstanceService extends AbstractService {
         instance.setImage(image);
 
         return instance;
+    }
+
+    public List<Instance> findByFarm(Farm farm) {
+        List<Instance> instances = instanceRepository.findByFarmNo(farm.getFarmNo());
+
+        if (instances.isEmpty()) {
+            return instances;
+        }
+
+        List<Long> instanceNos = new ArrayList<>();
+        Set<Long> platformNos = new HashSet<>();
+        Set<Long> imageNos = new HashSet<>();
+
+        for (Instance instance : instances) {
+            instanceNos.add(instance.getInstanceNo());
+            platformNos.add(instance.getPlatformNo());
+            imageNos.add(instance.getImageNo());
+        }
+
+        {
+            List<AwsInstance> awsInstancees = awsInstanceRepository.findByInstanceNoIn(instanceNos);
+            Map<Long, AwsInstance> awsInstanceMap = new LinkedHashMap<Long, AwsInstance>();
+            for (AwsInstance awsInstance : awsInstancees) {
+                awsInstanceMap.put(awsInstance.getInstanceNo(), awsInstance);
+            }
+
+            for (Instance instance : instances) {
+                instance.setAws(awsInstanceMap.get(instance.getInstanceNo()));
+            }
+        }
+
+        {
+            List<VmwareInstance> vmwareInstances = vmwareInstanceRepository.findByInstanceNoIn(instanceNos);
+            Map<Long, VmwareInstance> vmwareInstanceMap = new LinkedHashMap<Long, VmwareInstance>();
+            for (VmwareInstance vmwareInstance : vmwareInstances) {
+                vmwareInstanceMap.put(vmwareInstance.getInstanceNo(), vmwareInstance);
+            }
+
+            for (Instance instance : instances) {
+                instance.setVmware(vmwareInstanceMap.get(instance.getInstanceNo()));
+            }
+        }
+
+        for (Instance instance : instances) {
+            instance.setFarm(farm);
+        }
+
+        {
+            List<Platform> platforms = platformService.findByPlatformNos(platformNos);
+            Map<Long, Platform> platformMap = new LinkedHashMap<Long, Platform>();
+            for (Platform platform : platforms) {
+                platformMap.put(platform.getPlatformNo(), platform);
+            }
+
+            for (Instance instance : instances) {
+                instance.setPlatform(platformMap.get(instance.getPlatformNo()));
+            }
+        }
+
+        {
+            List<Image> images = imageService.findByImageNos(imageNos);
+            Map<Long, Image> imageMap = new LinkedHashMap<Long, Image>();
+            for (Image image : images) {
+                imageMap.put(image.getImageNo(), image);
+            }
+
+            for (Instance instance : instances) {
+                instance.setImage(imageMap.get(instance.getImageNo()));
+            }
+        }
+
+        return instances;
     }
 
 }

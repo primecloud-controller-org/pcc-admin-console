@@ -19,6 +19,7 @@
 package org.primecloudcontroller.admin.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -93,6 +94,36 @@ public class PlatformService extends AbstractService {
         }
 
         return platform;
+    }
+
+    public List<Platform> findByPlatformNos(Collection<Long> platformNos) {
+        List<Platform> platforms = platformRepository.findByPlatformNoIn(platformNos);
+
+        {
+            List<PlatformAws> platformAwses = platformAwsRepository.findAll();
+            Map<Long, PlatformAws> platformAwsMap = new LinkedHashMap<Long, PlatformAws>();
+            for (PlatformAws platformAws : platformAwses) {
+                platformAwsMap.put(platformAws.getPlatformNo(), platformAws);
+            }
+
+            for (Platform platform : platforms) {
+                platform.setAws(platformAwsMap.get(platform.getPlatformNo()));
+            }
+        }
+
+        {
+            List<PlatformVmware> platformVmwares = platformVmwareRepository.findByPlatformNoIn(platformNos);
+            Map<Long, PlatformVmware> platformVmwareMap = new LinkedHashMap<Long, PlatformVmware>();
+            for (PlatformVmware platformVmware : platformVmwares) {
+                platformVmwareMap.put(platformVmware.getPlatformNo(), platformVmware);
+            }
+
+            for (Platform platform : platforms) {
+                platform.setVmware(platformVmwareMap.get(platform.getPlatformNo()));
+            }
+        }
+
+        return platforms;
     }
 
     public Platform saveAws(Map<String, String> params) {

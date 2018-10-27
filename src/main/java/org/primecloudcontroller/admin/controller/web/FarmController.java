@@ -21,7 +21,9 @@ package org.primecloudcontroller.admin.controller.web;
 import java.util.List;
 
 import org.primecloudcontroller.admin.model.Farm;
+import org.primecloudcontroller.admin.model.Instance;
 import org.primecloudcontroller.admin.service.FarmService;
+import org.primecloudcontroller.admin.service.InstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,6 +37,9 @@ public class FarmController extends AbstractWebController {
 
     @Autowired
     protected FarmService farmService;
+
+    @Autowired
+    protected InstanceService instanceService;
 
     @RequestMapping(path = "/farm", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -63,6 +68,10 @@ public class FarmController extends AbstractWebController {
         }
 
         model.addAttribute("farm", farm);
+
+        // Instance
+        List<Instance> instances = instanceService.findByFarm(farm);
+        model.addAttribute("instances", instances);
 
         return new ModelAndView("farm/show", model);
     }

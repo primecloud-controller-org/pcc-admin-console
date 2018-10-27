@@ -18,6 +18,8 @@
  */
 package org.primecloudcontroller.admin.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +105,53 @@ public class ImageService extends AbstractService {
         }
 
         return image;
+    }
+
+    public List<Image> findByImageNos(Collection<Long> imageNos) {
+        List<Image> images = imageRepository.findByImageNoIn(imageNos);
+
+        List<Long> platformNos = new ArrayList<>();
+        for (Image image : images) {
+            platformNos.add(image.getPlatformNo());
+        }
+
+        {
+            List<ImageAws> imageAwses = imageAwsRepository.findByImageNoIn(imageNos);
+            Map<Long, ImageAws> imageAwsMap = new LinkedHashMap<Long, ImageAws>();
+            for (ImageAws imageAws : imageAwses) {
+                imageAwsMap.put(imageAws.getImageNo(), imageAws);
+            }
+
+            for (Image image : images) {
+                image.setAws(imageAwsMap.get(image.getImageNo()));
+            }
+        }
+
+        {
+            List<ImageVmware> imageVmwares = imageVmwareRepository.findByImageNoIn(imageNos);
+            Map<Long, ImageVmware> imageVmwareMap = new LinkedHashMap<Long, ImageVmware>();
+            for (ImageVmware imageVmware : imageVmwares) {
+                imageVmwareMap.put(imageVmware.getImageNo(), imageVmware);
+            }
+
+            for (Image image : images) {
+                image.setVmware(imageVmwareMap.get(image.getImageNo()));
+            }
+        }
+
+        {
+            List<Platform> platforms = platformService.findByPlatformNos(platformNos);
+            Map<Long, Platform> platformMap = new LinkedHashMap<Long, Platform>();
+            for (Platform platform : platforms) {
+                platformMap.put(platform.getPlatformNo(), platform);
+            }
+
+            for (Image image : images) {
+                image.setPlatform(platformMap.get(image.getPlatformNo()));
+            }
+        }
+
+        return images;
     }
 
     public Image saveAws(Map<String, String> params) {

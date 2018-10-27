@@ -29,6 +29,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InstanceRepository extends JpaRepository<Instance, Long> {
 
+    List<Instance> findByFarmNo(Long farmNo);
+
     long countByPlatformNo(Long platformNo);
 
     long countByImageNo(Long imageNo);

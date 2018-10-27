@@ -18,11 +18,16 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.primecloudcontroller.admin.model.ImageVmware;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImageVmwareRepository extends JpaRepository<ImageVmware, Long> {
+
+    List<ImageVmware> findByImageNoIn(Collection<Long> imageNos);
 
 }

@@ -18,11 +18,16 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.primecloudcontroller.admin.model.ImageAws;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImageAwsRepository extends JpaRepository<ImageAws, Long> {
+
+    List<ImageAws> findByImageNoIn(Collection<Long> imageNos);
 
 }

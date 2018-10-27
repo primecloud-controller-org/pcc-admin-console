@@ -18,6 +18,7 @@
  */
 package org.primecloudcontroller.admin.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.primecloudcontroller.admin.model.VmwareInstance;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VmwareInstanceRepository extends JpaRepository<VmwareInstance, Long> {
+
+    List<VmwareInstance> findByInstanceNoIn(Collection<Long> instanceNos);
 
     long countByInstanceNoInAndInstanceType(List<Long> instanceNos, String instanceType);
 
