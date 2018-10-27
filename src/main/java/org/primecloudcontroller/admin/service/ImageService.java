@@ -204,7 +204,7 @@ public class ImageService extends AbstractService {
             }
 
             if (add || !StringUtils.equals(image.getImageName(), imageName)) {
-                boolean exists = imageRepository.existsByImageName(imageName);
+                boolean exists = imageRepository.existsByPlatformNoAndImageName(image.getPlatformNo(), imageName);
                 if (exists) {
                     throw new ApplicationException("message.image.existImageName");
                 }

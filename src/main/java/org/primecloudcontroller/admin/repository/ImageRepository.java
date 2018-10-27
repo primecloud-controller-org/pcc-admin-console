@@ -25,7 +25,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
-    boolean existsByImageName(String imageName);
+    boolean existsByPlatformNoAndImageName(Long platformNo, String imageName);
 
     long countByPlatformNo(Long platformNo);
 
