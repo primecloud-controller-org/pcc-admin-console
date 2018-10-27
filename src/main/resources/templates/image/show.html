@@ -132,6 +132,10 @@
                   </td>
                 </tr>
                 <tr>
+                  <th th:text="#{label.image.aws.defaultInstanceType}"></th>
+                  <td th:text="${image.aws.defaultInstanceType}"></td>
+                </tr>
+                <tr>
                   <th th:text="#{label.image.aws.ebsImage}"></th>
                   <td th:text="#{${image.aws.ebsImage ? 'label.true' : 'label.false'}}"></td>
                 </tr>
@@ -159,6 +163,10 @@
                   <td>
                     <div th:each="str : ${#strings.arraySplit(#strings.defaultString(image.vmware.instanceTypes, ''), ',')}" th:text="${str}"></div>
                   </td>
+                </tr>
+                <tr>
+                  <th th:text="#{label.image.vmware.defaultInstanceType}"></th>
+                  <td th:text="${image.vmware.defaultInstanceType}"></td>
                 </tr>
                 <tr>
                   <th th:text="#{label.image.vmware.rootSize}"></th>

@@ -44,6 +44,9 @@ public class ImageVmware implements Serializable {
     @Column(name = "ROOT_SIZE")
     private Integer rootSize;
 
+    @Column(name = "DEFAULT_INSTANCE_TYPE")
+    private String defaultInstanceType;
+
     public Long getImageNo() {
         return imageNo;
     }
@@ -74,6 +77,14 @@ public class ImageVmware implements Serializable {
 
     public void setRootSize(Integer rootSize) {
         this.rootSize = rootSize;
+    }
+
+    public String getDefaultInstanceType() {
+        return defaultInstanceType;
+    }
+
+    public void setDefaultInstanceType(String defaultInstanceType) {
+        this.defaultInstanceType = defaultInstanceType;
     }
 
 }

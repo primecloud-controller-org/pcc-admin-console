@@ -17,11 +17,13 @@
     AwsKernelId : "#imageAws input[name=kernelId]",
     AwsRamdiskId : "#imageAws input[name=ramdiskId]",
     AwsInstanceTypes : "#imageAws input[name=instanceTypes]",
+    AwsDefaultInstanceType : "#imageAws input[name=defaultInstanceType]",
     AwsEbsImage : "#imageAws input[name=ebsImage]",
     AwsRootSize : "#imageAws input[name=rootSize]",
 
     VmwareTemplateName : "#imageVmware input[name=templateName]",
     VmwareInstanceTypes : "#imageVmware input[name=instanceTypes]",
+    VmwareDefaultInstanceType : "#imageVmware input[name=defaultInstanceType]",
     VmwareRootSize : "#imageVmware input[name=rootSize]"
   };
 
@@ -83,6 +85,7 @@
         kernelId : $(selectors["AwsKernelId"]).val(),
         ramdiskId : $(selectors["AwsRamdiskId"]).val(),
         instanceTypes : $(selectors["AwsInstanceTypes"]).val(),
+        defaultInstanceType : $(selectors["AwsDefaultInstanceType"]).val(),
         ebsImage : $(selectors["AwsEbsImage"]).prop("checked"),
         rootSize : $(selectors["AwsRootSize"]).val()
       });
@@ -94,6 +97,7 @@
       data = Object.assign(data, {
         templateName : $(selectors["VmwareTemplateName"]).val(),
         instanceTypes : $(selectors["VmwareInstanceTypes"]).val(),
+        defaultInstanceType : $(selectors["VmwareDefaultInstanceType"]).val(),
         rootSize : $(selectors["VmwareRootSize"]).val()
       });
     }

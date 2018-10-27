@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primecloudcontroller.admin.exception.ApplicationException;
 import org.primecloudcontroller.admin.model.Image;
@@ -408,6 +409,25 @@ public class ImageService extends AbstractService {
             imageAws.setInstanceTypes(instanceTypes);
         }
 
+        // DefaultInstanceType
+        {
+            String defaultInstanceType = params.get("defaultInstanceType");
+
+            int length = StringUtils.length(defaultInstanceType);
+            if (length > 20) {
+                throw new ApplicationException("message.image.illegalAwsDefaultInstanceType");
+            }
+
+            if (length > 0) {
+                String[] instanceTypes = StringUtils.split(imageAws.getInstanceTypes(), ",");
+                if (!ArrayUtils.contains(instanceTypes, defaultInstanceType)) {
+                    throw new ApplicationException("message.image.notContainAwsDefaultInstanceType");
+                }
+            }
+
+            imageAws.setDefaultInstanceType(defaultInstanceType);
+        }
+
         // EbsImage
         imageAws.setEbsImage(Boolean.valueOf(params.get("ebsImage")));
 
@@ -466,6 +486,25 @@ public class ImageService extends AbstractService {
             }
 
             imageVmware.setInstanceTypes(instanceTypes);
+        }
+
+        // DefaultInstanceType
+        {
+            String defaultInstanceType = params.get("defaultInstanceType");
+
+            int length = StringUtils.length(defaultInstanceType);
+            if (length > 30) {
+                throw new ApplicationException("message.image.illegalVmwareDefaultInstanceType");
+            }
+
+            if (length > 0) {
+                String[] instanceTypes = StringUtils.split(imageVmware.getInstanceTypes(), ",");
+                if (!ArrayUtils.contains(instanceTypes, defaultInstanceType)) {
+                    throw new ApplicationException("message.image.notContainVmwareDefaultInstanceType");
+                }
+            }
+
+            imageVmware.setDefaultInstanceType(defaultInstanceType);
         }
 
         // RootSize

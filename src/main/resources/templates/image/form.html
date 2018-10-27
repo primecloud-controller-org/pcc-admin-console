@@ -163,6 +163,14 @@
               </div>
             </div>
 
+            <!-- DefaultInstanceType -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.aws.defaultInstanceType}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="defaultInstanceType" th:value="${image?.aws?.defaultInstanceType}"/>
+              </div>
+            </div>
+
             <!-- EbsImage -->
             <div class="form-group">
               <label class="control-label col-md-3" th:text="#{label.image.aws.ebsImage}"></label>
@@ -196,6 +204,14 @@
               <label class="control-label col-md-3" th:text="#{label.image.vmware.instanceTypes}"></label>
               <div class="col-md-8">
                 <input type="text" class="form-control" name="instanceTypes" th:value="${image?.vmware?.instanceTypes}"/>
+              </div>
+            </div>
+
+            <!-- DefaultInstanceType -->
+            <div class="form-group">
+              <label class="control-label col-md-3" th:text="#{label.image.vmware.defaultInstanceType}"></label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" name="defaultInstanceType" th:value="${image?.vmware?.defaultInstanceType}"/>
               </div>
             </div>
 
