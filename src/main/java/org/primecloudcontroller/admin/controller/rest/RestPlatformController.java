@@ -79,16 +79,17 @@ public class RestPlatformController extends AbstractRestController {
 
     @RequestMapping(path = "/rest/platform/checkRemoveVmareInstanceType", method = RequestMethod.GET)
     public RestResponse checkRemoveVmwareInstanceType(
-            @RequestParam(name = "instanceTypeNo", required = false) String instanceTypeNo) {
-        platformService.checkRemoveVmwareInstanceType(instanceTypeNo);
+            @RequestParam(name = "platformNo", required = false) String platformNo,
+            @RequestParam(name = "instanceTypeName", required = false) String instanceTypeName) {
+        platformService.checkRemoveVmwareInstanceType(platformNo, instanceTypeName);
 
         return new RestResponse(Boolean.TRUE);
     }
 
     @RequestMapping(path = "/rest/platform/removeVmareInstanceType", method = RequestMethod.POST)
-    public RestResponse removeVmwareInstanceType(
-            @RequestParam(name = "instanceTypeNo", required = false) String instanceTypeNo) {
-        platformService.removeVmwareInstanceType(instanceTypeNo);
+    public RestResponse removeVmwareInstanceType(@RequestParam(name = "platformNo", required = false) String platformNo,
+            @RequestParam(name = "instanceTypeName", required = false) String instanceTypeName) {
+        platformService.removeVmwareInstanceType(platformNo, instanceTypeName);
 
         return new RestResponse(Boolean.TRUE);
     }

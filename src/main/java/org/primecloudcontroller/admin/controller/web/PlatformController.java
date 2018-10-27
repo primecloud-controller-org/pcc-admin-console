@@ -18,9 +18,12 @@
  */
 package org.primecloudcontroller.admin.controller.web;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.primecloudcontroller.admin.model.Platform;
+import org.primecloudcontroller.admin.model.PlatformVmwareInstanceType;
 import org.primecloudcontroller.admin.service.PlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,6 +63,19 @@ public class PlatformController extends AbstractWebController {
         if (platform == null) {
             model.addAttribute("message", "not_exist");
             return new ModelAndView("redirect:/platform", model);
+        }
+
+        // Sort by cpu, memory
+        if (platform.getVmware() != null) {
+            Collections.sort(platform.getVmware().getInstanceTypes(), new Comparator<PlatformVmwareInstanceType>() {
+                public int compare(PlatformVmwareInstanceType o1, PlatformVmwareInstanceType o2) {
+                    int c = o1.getCpu().compareTo(o2.getCpu());
+                    if (c != 0) {
+                        return c;
+                    }
+                    return o1.getMemory().compareTo(o2.getMemory());
+                };
+            });
         }
 
         model.addAttribute("platform", platform);

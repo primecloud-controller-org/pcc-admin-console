@@ -52,14 +52,12 @@
 
   var selectors = {
     PlatformNo : "#add-vmware-instance-type-modal input[name=platformNo]",
-    InstanceTypeNo : "#add-vmware-instance-type-modal input[name=instanceTypeNo]",
     InstanceTypeName : "#add-vmware-instance-type-modal input[name=instanceTypeName]",
     Cpu : "#add-vmware-instance-type-modal input[name=cpu]",
     Memory : "#add-vmware-instance-type-modal input[name=memory]"
   };
 
   $("#add-vmware-instance-type-modal-open").on("click", function() {
-    $(selectors["InstanceTypeNo"]).val("");
     $(selectors["InstanceTypeName"]).val("");
     $(selectors["Cpu"]).val("");
     $(selectors["Memory"]).val("");
@@ -77,7 +75,6 @@
       type : "post",
       data : {
         platformNo : platformNo,
-        instanceTypeNo : $(selectors["InstanceTypeNo"]).val(),
         instanceTypeName : $(selectors["InstanceTypeName"]).val(),
         cpu : $(selectors["Cpu"]).val(),
         memory : $(selectors["Memory"]).val()
@@ -105,10 +102,10 @@
   });
 
   $(".remove-vmware-instance-type-modal-open").on("click", function() {
-    var instanceTypeNo = $(this).data("instance_type_no");
+    var platformNo = $("#remove-vmware-instance-type-modal input[name=platformNo]").val();
+    var instanceTypeName = $(this).data("instance_type_name");
 
-    $("#remove-vmware-instance-type-modal input[name=instanceTypeNo]").val(instanceTypeNo);
-    $("#remove-vmware-instance-type-modal input[name=instanceTypeName]").val($(this).data("instance_type_name"));
+    $("#remove-vmware-instance-type-modal input[name=instanceTypeName]").val(instanceTypeName);
     $("#remove-vmware-instance-type-modal input[name=cpu]").val($(this).data("cpu"));
     $("#remove-vmware-instance-type-modal input[name=memory]").val($(this).data("memory"));
 
@@ -122,7 +119,8 @@
       url : "/rest/platform/checkRemoveVmareInstanceType",
       type : "get",
       data : {
-        instanceTypeNo : instanceTypeNo
+        platformNo : platformNo,
+        instanceTypeName : instanceTypeName
       },
       dataType : "json",
       cache : false
@@ -137,13 +135,15 @@
   });
 
   $("#remove-vmware-instance-type-button").on("click", function() {
-    var instanceTypeNo = $("#remove-vmware-instance-type-modal input[name=instanceTypeNo]").val();
+    var platformNo = $("#remove-vmware-instance-type-modal input[name=platformNo]").val();
+    var instanceTypeName = $("#remove-vmware-instance-type-modal input[name=instanceTypeName]").val();
 
     $.ajax({
       url : "/rest/platform/removeVmareInstanceType",
       type : "post",
       data : {
-        instanceTypeNo : instanceTypeNo
+        platformNo : platformNo,
+        instanceTypeName : instanceTypeName
       },
       dataType : "json",
       cache : false
@@ -154,8 +154,6 @@
         $("#remove-vmware-instance-type-button").prop("disabled", true);
         return;
       }
-
-      var platformNo = $("#remove-vmware-instance-type-modal input[name=platformNo]").val();
 
       $("#remove-vmware-instance-type-modal").modal("hide");
       location.href = app.contextPath + "/platform/show?platformNo=" + platformNo + "&message=success_remove_vmware_instance_type";

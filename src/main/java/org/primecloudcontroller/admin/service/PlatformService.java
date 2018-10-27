@@ -33,6 +33,7 @@ import org.primecloudcontroller.admin.model.Platform;
 import org.primecloudcontroller.admin.model.PlatformAws;
 import org.primecloudcontroller.admin.model.PlatformVmware;
 import org.primecloudcontroller.admin.model.PlatformVmwareInstanceType;
+import org.primecloudcontroller.admin.model.PlatformVmwareInstanceTypePK;
 import org.primecloudcontroller.admin.model.VmwareKeyPair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,7 +90,7 @@ public class PlatformService extends AbstractService {
             platform.setVmware(platformVmware);
 
             List<PlatformVmwareInstanceType> platformVmwareInstanceTypes = platformVmwareInstanceTypeRepository
-                    .findByPlatformNoOrderByInstanceTypeNo(platformNo);
+                    .findByPlatformNo(platformNo);
             platformVmware.setInstanceTypes(platformVmwareInstanceTypes);
         }
 
@@ -526,7 +527,7 @@ public class PlatformService extends AbstractService {
         PlatformVmware platformVmware = platformVmwareRepository.findOne(platform.getPlatformNo());
         if (platformVmware != null) {
             List<PlatformVmwareInstanceType> instanceTypes = platformVmwareInstanceTypeRepository
-                    .findByPlatformNoOrderByInstanceTypeNo(platform.getPlatformNo());
+                    .findByPlatformNo(platform.getPlatformNo());
             if (instanceTypes.size() > 0) {
                 platformVmwareInstanceTypeRepository.delete(instanceTypes);
             }
@@ -559,22 +560,6 @@ public class PlatformService extends AbstractService {
         }
 
         {
-            Long instanceTypeNo;
-            try {
-                instanceTypeNo = Long.valueOf(params.get("instanceTypeNo"));
-            } catch (NumberFormatException e) {
-                throw new ApplicationException("message.platform.vmwareInstanceType.illegalInstanceTypeNo");
-            }
-
-            boolean exists = platformVmwareInstanceTypeRepository.exists(instanceTypeNo);
-            if (exists) {
-                throw new ApplicationException("message.platform.vmwareInstanceType.existInstanceTypeNo");
-            }
-
-            instanceType.setInstanceTypeNo(instanceTypeNo);
-        }
-
-        {
             String instanceTypeName = params.get("instanceTypeName");
 
             int length = StringUtils.length(instanceTypeName);
@@ -583,7 +568,7 @@ public class PlatformService extends AbstractService {
             }
 
             boolean exists = platformVmwareInstanceTypeRepository
-                    .existsByPlatformNoAndInstanceTypeName(instanceType.getPlatformNo(), instanceTypeName);
+                    .exists(new PlatformVmwareInstanceTypePK(instanceType.getPlatformNo(), instanceTypeName));
             if (exists) {
                 throw new ApplicationException("message.platform.vmwareInstanceType.existInstanceTypeName");
             }
@@ -618,24 +603,24 @@ public class PlatformService extends AbstractService {
         return instanceType;
     }
 
-    public PlatformVmwareInstanceType checkRemoveVmwareInstanceType(String instanceTypeNoStr) {
-        Long instanceTypeNo;
+    public PlatformVmwareInstanceType checkRemoveVmwareInstanceType(String platformNoStr, String instanceTypeName) {
+        Long platformNo;
         try {
-            instanceTypeNo = Long.valueOf(instanceTypeNoStr);
+            platformNo = Long.valueOf(platformNoStr);
         } catch (NumberFormatException e) {
-            throw new ApplicationException("message.platform.vmwareInstanceType.illegalInstanceTypeNo");
+            throw new ApplicationException("message.platform.vmwareInstanceType.illegalPlatformNo");
         }
 
-        PlatformVmwareInstanceType instanceType = platformVmwareInstanceTypeRepository.findOne(instanceTypeNo);
+        PlatformVmwareInstanceType instanceType = platformVmwareInstanceTypeRepository
+                .findOne(new PlatformVmwareInstanceTypePK(platformNo, instanceTypeName));
         if (instanceType == null) {
             throw new ApplicationException("message.platform.vmwareInstanceType.notExist");
         }
 
         // vmware instance must not exist
         {
-            List<Long> instanceNos = instanceRepository.findInstanceNoByPlatformNo(instanceType.getPlatformNo());
-            long count = vmwareInstanceRepository.countByInstanceNoInAndInstanceType(instanceNos,
-                    instanceType.getInstanceTypeName());
+            List<Long> instanceNos = instanceRepository.findInstanceNoByPlatformNo(platformNo);
+            long count = vmwareInstanceRepository.countByInstanceNoInAndInstanceType(instanceNos, instanceTypeName);
             if (count > 0) {
                 throw new ApplicationException("message.platform.vmwareInstanceType.notRemovableAsInstanceExist");
             }
@@ -644,8 +629,8 @@ public class PlatformService extends AbstractService {
         return instanceType;
     }
 
-    public void removeVmwareInstanceType(String instanceTypeNoStr) {
-        PlatformVmwareInstanceType instanceType = checkRemoveVmwareInstanceType(instanceTypeNoStr);
+    public void removeVmwareInstanceType(String platformNoStr, String instanceTypeName) {
+        PlatformVmwareInstanceType instanceType = checkRemoveVmwareInstanceType(platformNoStr, instanceTypeName);
 
         platformVmwareInstanceTypeRepository.delete(instanceType);
     }

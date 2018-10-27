@@ -21,14 +21,14 @@ package org.primecloudcontroller.admin.repository;
 import java.util.List;
 
 import org.primecloudcontroller.admin.model.PlatformVmwareInstanceType;
+import org.primecloudcontroller.admin.model.PlatformVmwareInstanceTypePK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PlatformVmwareInstanceTypeRepository extends JpaRepository<PlatformVmwareInstanceType, Long> {
+public interface PlatformVmwareInstanceTypeRepository
+        extends JpaRepository<PlatformVmwareInstanceType, PlatformVmwareInstanceTypePK> {
 
-    List<PlatformVmwareInstanceType> findByPlatformNoOrderByInstanceTypeNo(Long platformNo);
-
-    boolean existsByPlatformNoAndInstanceTypeName(Long platformNo, String instanceTypeName);
+    List<PlatformVmwareInstanceType> findByPlatformNo(Long platformNo);
 
 }
